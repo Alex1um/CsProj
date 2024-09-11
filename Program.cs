@@ -1,6 +1,5 @@
-﻿
-var x = new MyClass();
-var comp = new MyComponent(42);
+﻿var teamleads = CSVReader.Read<Teamlead>("./CSHARP_2024_NSU/Teamleads20.csv");
+var juniors = CSVReader.Read<Junior>("./CSHARP_2024_NSU/Juniors20.csv");
 
-Console.WriteLine("Hello, World!");
-comp.Print();
+Console.WriteLine(teamleads);
+Console.WriteLine(juniors);

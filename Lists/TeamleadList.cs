@@ -1,0 +1,1 @@
+class TeamleadList(int ownerId) : ParticipantList(ownerId) {}
