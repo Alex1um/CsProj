@@ -1,5 +1,4 @@
-namespace CsProj.src.ObjectOriented.Extensions;
-static class ListExtensions
+public static class ListExtensions
 {
 
     static public List<T> GetShuffled<T>(this List<T> list)
