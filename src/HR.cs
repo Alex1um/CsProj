@@ -1,15 +1,16 @@
+using Assignment = (Teamlead, Junior);
 
 class HR
 {
     public const int N = 20;
 
-    public static Dictionary<(Teamlead, Junior), int> CalcSatisfactionIndex(
+    public static Dictionary<Assignment, int> CalcSatisfactionIndex(
         Dictionary<Teamlead, List<Junior>> teamleadLists,
         Dictionary<Junior, List<Teamlead>> junLists,
         Dictionary<Teamlead, Junior> result_list
     )
     {
-        var result_dict = new Dictionary<(Teamlead, Junior), int>();
+        var result_dict = new Dictionary<Assignment, int>();
         foreach (var (teamlead, junior) in result_list)
         {
             var team_lead_index = junLists[junior].IndexOf(teamlead);
@@ -21,7 +22,7 @@ class HR
         return result_dict;
     }
 
-    public static double GetHarmonicMean(Dictionary<(Teamlead, Junior), int> result_dict)
+    public static double GetHarmonicMean(Dictionary<Assignment, int> result_dict)
     {
         var sum = 0.0;
         foreach (var value in result_dict.Values)

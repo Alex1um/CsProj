@@ -9,7 +9,6 @@ for (int i = 0; i < TRIES; i++) {
     var junLists = new PreferList<Junior, Teamlead>(juniors, teamleads);
     var teamleadLists = new PreferList<Teamlead, Junior>(teamleads, juniors);
     var result_list = HR.AssignEmployeesAsStableMarriage(teamleads, juniors, teamleadLists, junLists);
-    result_list.Print();
     var result_dict = HR.CalcSatisfactionIndex(teamleadLists, junLists, result_list);
     result_dict.Print();
     meanHarmonicsSum += HR.GetHarmonicMean(result_dict);

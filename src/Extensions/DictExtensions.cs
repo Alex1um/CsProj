@@ -10,4 +10,15 @@ static class DictExtensions
         result_string += "}";
         Console.WriteLine(result_string);
     }
+    
+    public static void Print<V>(this Dictionary<(Teamlead, Junior), V> dict)
+    {
+        var result_string = "{\n";
+        foreach (var ((teamlead, junior), value) in dict)
+        {
+            result_string += $"\t{teamlead}: {junior} = {value}\n";
+        }
+        result_string += "}";
+        Console.WriteLine(result_string);
+    }
 }
