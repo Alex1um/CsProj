@@ -8,12 +8,16 @@ abstract class Participant()
         Name = name;
     }
 
-    public List<T> createList<T>(List<T> other_list) where T: Participant {
-        var arr = new T[20];
-        // fill juniorList with random teamlead ids
+    public List<T> createList<T>(List<T> other_list) where T : Participant
+    {
+        // var arr = other_list.ToArray();
+        var arr = other_list.ToList();
         var random = new Random();
-        for (int i = 0; i < arr.Count(); i++) arr[i] = other_list[i];
-        random.Shuffle(arr);
+        for (int i = 0; i < arr.Count; i++)
+        {
+            var j = random.Next(i, arr.Count);
+            (arr[i], arr[j]) = (arr[j], arr[i]);
+        }
         return [.. arr];
     }
 }
