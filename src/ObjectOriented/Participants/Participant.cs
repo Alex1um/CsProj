@@ -1,3 +1,5 @@
+namespace CsProj.src.ObjectOriented.Participants;
+using CsProj.src.ObjectOriented.Extensions;
 abstract class Participant()
 {
     public int Id { get; set; }

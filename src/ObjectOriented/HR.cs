@@ -1,4 +1,7 @@
-using Assignment = (Teamlead, Junior);
+namespace CsProj.src.ObjectOriented;
+
+using CsProj.src.ObjectOriented.Participants;
+using Assignment = (Participants.Teamlead, Participants.Junior);
 
 class HR
 {

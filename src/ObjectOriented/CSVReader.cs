@@ -1,3 +1,7 @@
+namespace CsProj.src.ObjectOriented;
+
+using CsProj.src.ObjectOriented.Participants;
+
 static class CSVReader
 {
     public static List<T> Read<T>(string file) where T : Participant, new()

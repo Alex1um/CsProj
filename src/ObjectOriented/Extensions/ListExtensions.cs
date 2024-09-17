@@ -1,3 +1,4 @@
+namespace CsProj.src.ObjectOriented.Extensions;
 static class ListExtensions
 {
 
