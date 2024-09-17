@@ -1,9 +1,13 @@
 namespace CsProj.src.ObjectOriented;
 
 using CsProj.src.ObjectOriented.Participants;
+using Microsoft.VisualBasic;
+using Nsu.HackathonProblem.Contracts;
 
-class HRManager<T> where T: ITeamBuildingStrategy
+class HRManager(ITeamBuildingStrategy strategy) 
 {
+
+    private readonly ITeamBuildingStrategy strategy = strategy;
 
     public Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
@@ -12,6 +16,6 @@ class HRManager<T> where T: ITeamBuildingStrategy
         Dictionary<Junior, List<Teamlead>> junLists
     )
     {
-        return T.BuildTeams(teamleads, juniors, teamleadLists, junLists);
+        return strategy.BuildTeams(teamleads, juniors, teamleadLists, junLists);
     }
 }

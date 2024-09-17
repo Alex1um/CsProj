@@ -2,9 +2,9 @@ namespace CsProj.src.ObjectOriented;
 
 using CsProj.src.ObjectOriented.Participants;
 
-interface ITeamBuildingStrategy
+public abstract class ITeamBuildingStrategy
 {
-    public abstract static Dictionary<Teamlead, Junior> BuildTeams(
+    public abstract Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         Dictionary<Teamlead, List<Junior>> teamleadLists,
@@ -13,7 +13,7 @@ interface ITeamBuildingStrategy
 }
 
 public class RandomTeamBuildingStrategy : ITeamBuildingStrategy {
-    public static Dictionary<Teamlead, Junior> BuildTeams(
+    public override Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         Dictionary<Teamlead, List<Junior>> teamleadLists,
@@ -33,7 +33,7 @@ public class RandomTeamBuildingStrategy : ITeamBuildingStrategy {
 }
 public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy {
 
-    public static Dictionary<Teamlead, Junior> BuildTeams(
+    public override Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         Dictionary<Teamlead, List<Junior>> teamleadLists,

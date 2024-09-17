@@ -7,13 +7,13 @@ class Hackaton {
 
     private readonly List<Teamlead> teamleads;
     private readonly List<Junior> juniors;
-    private readonly HRManager<RandomTeamBuildingStrategy> manager;
+    private readonly HRManager manager;
     private readonly HRDirector director;
 
     public Hackaton(String teamleadPath, String juniorsPath) {
         teamleads = CSVReader.Read<Teamlead>(teamleadPath);
         juniors = CSVReader.Read<Junior>(juniorsPath);
-        manager = new HRManager<RandomTeamBuildingStrategy>();
+        manager = new HRManager();
         director = new HRDirector();
     }
 
