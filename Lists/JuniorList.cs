@@ -1,1 +1,0 @@
-class JuniorList(int ownerId) : ParticipantList(ownerId) {}

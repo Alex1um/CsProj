@@ -1,20 +1,18 @@
-﻿var teamleads = CSVReader.Read<Teamlead>("./CSHARP_2024_NSU/Teamleads20.csv");
+﻿const int TRIES = 1;
+
+var teamleads = CSVReader.Read<Teamlead>("./CSHARP_2024_NSU/Teamleads20.csv");
 var juniors = CSVReader.Read<Junior>("./CSHARP_2024_NSU/Juniors20.csv");
 
 
 var meanHarmonicsSum = 0.0;
-for (int i = 0; i < 1000; i++) {
-    var junLists = new Dictionary<Junior, List<Teamlead>>();
-    foreach (var junior in juniors) {
-        junLists.Add(junior, junior.createList(teamleads));
-    }
-    var teamleadLists = new Dictionary<Teamlead, List<Junior>>();
-    foreach (var teamlead in teamleads) {
-        teamleadLists.Add(teamlead, teamlead.createList(juniors));
-    }
-    var result_list = HR.assignEmployees(teamleads, juniors, teamleadLists, junLists);
-    var result_dict = HR.calcSatisfactionIndex(teamleadLists, junLists, result_list);
-    meanHarmonicsSum += HR.getHarmonicMean(result_dict);
+for (int i = 0; i < TRIES; i++) {
+    var junLists = new PreferList<Junior, Teamlead>(juniors, teamleads);
+    var teamleadLists = new PreferList<Teamlead, Junior>(teamleads, juniors);
+    var result_list = HR.AssignEmployeesAsStableMarriage(teamleads, juniors, teamleadLists, junLists);
+    result_list.Print();
+    var result_dict = HR.CalcSatisfactionIndex(teamleadLists, junLists, result_list);
+    result_dict.Print();
+    meanHarmonicsSum += HR.GetHarmonicMean(result_dict);
 }
 
-Console.WriteLine(meanHarmonicsSum / 1000);
+Console.WriteLine(meanHarmonicsSum / TRIES);
