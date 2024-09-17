@@ -1,41 +1,19 @@
 namespace CsProj.src.ObjectOriented;
 
 using CsProj.src.ObjectOriented.Participants;
-using Assignment = (Participants.Teamlead, Participants.Junior);
 
-class HR
+interface ITeamBuildingStrategy
 {
-    public const int N = 20;
-
-    public static Dictionary<Assignment, int> CalcSatisfactionIndex(
+    public abstract static Dictionary<Teamlead, Junior> BuildTeams(
+        List<Teamlead> teamleads,
+        List<Junior> juniors,
         Dictionary<Teamlead, List<Junior>> teamleadLists,
-        Dictionary<Junior, List<Teamlead>> junLists,
-        Dictionary<Teamlead, Junior> result_list
-    )
-    {
-        var result_dict = new Dictionary<Assignment, int>();
-        foreach (var (teamlead, junior) in result_list)
-        {
-            var team_lead_index = junLists[junior].IndexOf(teamlead);
-            var team_lead_score = 20 - team_lead_index;
-            var junior_index = teamleadLists[teamlead].IndexOf(junior);
-            var junior_score = 20 - junior_index;
-            result_dict[(teamlead, junior)] = team_lead_score + junior_score;
-        }
-        return result_dict;
-    }
+        Dictionary<Junior, List<Teamlead>> junLists
+        );
+}
 
-    public static double GetHarmonicMean(Dictionary<Assignment, int> result_dict)
-    {
-        var sum = 0.0;
-        foreach (var value in result_dict.Values)
-        {
-            sum += 1.0 / value;
-        }
-        return result_dict.Count / sum;
-    }
-
-    public static Dictionary<Teamlead, Junior> AssignEmployees(
+public class RandomTeamBuildingStrategy : ITeamBuildingStrategy {
+    public static Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         Dictionary<Teamlead, List<Junior>> teamleadLists,
@@ -52,8 +30,10 @@ class HR
         }
         return result_list;
     }
+}
+public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy {
 
-    public static Dictionary<Teamlead, Junior> AssignEmployeesAsStableMarriage(
+    public static Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         Dictionary<Teamlead, List<Junior>> teamleadLists,
@@ -79,7 +59,7 @@ class HR
         // Initialize all men and women as free
         // memset(wPartner, -1, sizeof(wPartner));
         // memset(mFree, false, sizeof(mFree));
-        int freeCount = N;
+        int freeCount = teamleads.Count;
 
         // While there are free men
         while (freeCount > 0)
@@ -97,7 +77,7 @@ class HR
 
             // One by one go to all women according to m's preferences.
             // Here m is the picked free man
-            for (int i = 0; i < N && !mFree.Contains(m); i++)
+            for (int i = 0; i < teamleads.Count && !mFree.Contains(m); i++)
             {
                 var w = junLists[m][i];
 

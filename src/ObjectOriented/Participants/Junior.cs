@@ -1,2 +1,2 @@
 namespace CsProj.src.ObjectOriented.Participants;
-class Junior() : Participant() { }
+public class Junior() : Participant() { }

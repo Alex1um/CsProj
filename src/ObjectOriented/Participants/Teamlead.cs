@@ -1,2 +1,2 @@
 namespace CsProj.src.ObjectOriented.Participants;
-class Teamlead() : Participant() { }
+public class Teamlead() : Participant() { }
