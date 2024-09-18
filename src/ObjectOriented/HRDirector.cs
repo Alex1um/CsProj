@@ -15,9 +15,9 @@ class HRDirector {
         foreach (var (teamlead, junior) in result_list)
         {
             var team_lead_index = junLists[junior].IndexOf(teamlead);
-            var team_lead_score = 20 - team_lead_index;
+            var team_lead_score = teamleadLists.Count - team_lead_index;
             var junior_index = teamleadLists[teamlead].IndexOf(junior);
-            var junior_score = 20 - junior_index;
+            var junior_score = junLists.Count - junior_index;
             result_dict[(teamlead, junior)] = team_lead_score + junior_score;
         }
         return result_dict;
