@@ -7,17 +7,13 @@ class Hackaton {
 
     private readonly List<Teamlead> teamleads;
     private readonly List<Junior> juniors;
-    private readonly HRManager manager;
-    private readonly HRDirector director;
 
     public Hackaton(String teamleadPath, String juniorsPath) {
         teamleads = CSVReader.Read<Teamlead>(teamleadPath);
         juniors = CSVReader.Read<Junior>(juniorsPath);
-        manager = new HRManager();
-        director = new HRDirector();
     }
 
-    public double Run() {
+    public double Run(HRManager manager, HRDirector director) {
         var junLists = new PreferList<Junior, Teamlead>(this.juniors, teamleads);
         var teamleadLists = new PreferList<Teamlead, Junior>(teamleads, juniors);
         var result_dict = manager.BuildTeams(teamleads, juniors, teamleadLists, junLists);

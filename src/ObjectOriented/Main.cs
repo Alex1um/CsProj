@@ -21,11 +21,13 @@ static class Program
         host.Run();
 
         // var hackaton = new Hackaton("./CSHARP_2024_NSU/Teamleads20.csv", "./CSHARP_2024_NSU/Juniors20.csv");
+        // var manager = new HRManager(new StableMarriageTeamBuildingStrategy());
+        // var director = new HRDirector();
 
         // var meanHarmonicsSum = 0.0;
         // for (int i = 0; i < TRIES; i++)
         // {
-        //     meanHarmonicsSum = hackaton.Run();
+        //     meanHarmonicsSum = hackaton.Run(manager, director);
         // }
 
         // Console.WriteLine(meanHarmonicsSum / TRIES);
