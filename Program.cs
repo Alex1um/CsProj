@@ -1,1 +1,1 @@
-﻿CsProj.src.ObjectOriented.Program.Main([]);
+﻿CsProj.HackatonApp.ObjectOriented.Program.Main([]);

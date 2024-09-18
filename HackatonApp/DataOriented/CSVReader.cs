@@ -1,4 +1,4 @@
-namespace CsProj.src.DataOriented;
+namespace CsProj.HackatonApp.DataOriented;
 
 static class CSVReader
 {

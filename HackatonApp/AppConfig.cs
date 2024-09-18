@@ -1,4 +1,4 @@
-namespace CsProj.src;
+namespace CsProj.HackatonApp;
 
 internal sealed class HackatonSettings
 {

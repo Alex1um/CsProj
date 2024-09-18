@@ -1,8 +1,6 @@
-namespace CsProj.src.ObjectOriented;
+namespace CsProj.HackatonApp.ObjectOriented;
 
-using CsProj.src.ObjectOriented.Participants;
-using Microsoft.VisualBasic;
-using Nsu.HackathonProblem.Contracts;
+using CsProj.HackatonApp.ObjectOriented.Participants;
 
 class HRManager(ITeamBuildingStrategy strategy) 
 {
