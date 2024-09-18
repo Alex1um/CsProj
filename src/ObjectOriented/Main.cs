@@ -2,6 +2,7 @@
 namespace CsProj.src.ObjectOriented;
 using Microsoft.Extensions.DependencyInjection; 
 using Microsoft.Extensions.Hosting; 
+using CsProj.src;
 
 static class Program
 {
@@ -10,12 +11,14 @@ static class Program
     {
 
         var host = Host.CreateDefaultBuilder(args)
-            .ConfigureServices((_, services) => {
+            .ConfigureServices((hostContext, services) => {
                 services.AddHostedService<HackatonWorker>();
                 services.AddTransient<Hackaton>(_ => new Hackaton("./CSHARP_2024_NSU/Teamleads20.csv", "./CSHARP_2024_NSU/Juniors20.csv"));
                 services.AddTransient<ITeamBuildingStrategy, RandomTeamBuildingStrategy>();
                 services.AddTransient<HRManager>();
                 services.AddTransient<HRDirector>();
+
+                services.AddOptions<HackatonSettings>().Bind(hostContext.Configuration.GetSection("Hackaton"));
             })
             .Build();
         host.Run();
