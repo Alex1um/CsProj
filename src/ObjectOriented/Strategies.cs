@@ -54,7 +54,7 @@ public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
 
         while (freeJuniorCount > 0)
         {
-            Junior firstFreeJunior = new();
+            Junior? firstFreeJunior = null;
             foreach (var jun in juniors)
             {
                 if (!freeJuniors.Contains(jun))
@@ -62,6 +62,10 @@ public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
                     firstFreeJunior = jun;
                     break;
                 }
+            }
+            if (firstFreeJunior == null)
+            {
+                break;
             }
 
             for (int i = 0; i < teamleads.Count && !freeJuniors.Contains(firstFreeJunior); i++)

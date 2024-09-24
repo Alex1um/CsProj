@@ -1,16 +1,11 @@
 namespace CsProj.src.ObjectOriented.Participants;
 
-abstract public class Participant()
+abstract public class Participant
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
+    public required int Id { get; init; }
+    public required string Name { get; init; }
 
-    // public Participant(int id, string name) : this() {
-    //     Id = id;
-    //     Name = name;
-    // }
-
-    public static List<T> createList<T>(List<T> other_list) where T : Participant
+    public static List<T> CreateList<T>(List<T> other_list) where T : Participant
     {
         return other_list.GetShuffled();
     }
@@ -19,4 +14,5 @@ abstract public class Participant()
     {
         return $"{this.GetType().Name}({Id}, {Name})";
     }
+
 }
