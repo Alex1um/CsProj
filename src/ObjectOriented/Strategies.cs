@@ -12,7 +12,8 @@ interface ITeamBuildingStrategy
         );
 }
 
-public class RandomTeamBuildingStrategy : ITeamBuildingStrategy {
+public class RandomTeamBuildingStrategy : ITeamBuildingStrategy
+{
     public static Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
@@ -31,7 +32,8 @@ public class RandomTeamBuildingStrategy : ITeamBuildingStrategy {
         return result_list;
     }
 }
-public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy {
+public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
+{
 
     public static Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
@@ -40,75 +42,52 @@ public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy {
         Dictionary<Junior, List<Teamlead>> junLists
         )
     {
-        // This function returns true if woman 'w' prefers man 'm1' over man 'm'
-        static bool wPrefersM1OverM<T, V>(List<V> prefer, T w, V m, V m1)
+        static bool TeamLeadPrefersJun1OverJun2(List<Junior> prefer, Junior m, Junior m1)
         {
             return prefer.IndexOf(m1) < prefer.IndexOf(m);
         }
-        // Stores partner of women. This is our output array that
-        // stores passing information.  The value of wPartner[i]
-        // indicates the partner assigned to woman N+i.  Note that
-        // the woman numbers between N and 2*N-1. The value -1
-        // indicates that (N+i)'th woman is free
-        var wPartner = new Dictionary<Teamlead, Junior>();
+        var assignments = new Dictionary<Teamlead, Junior>();
 
-        // An array to store availability of men.  If mFree[i] is
-        // false, then man 'i' is free, otherwise engaged.
-        var mFree = new HashSet<Junior>();
+        var freeJuniors = new HashSet<Junior>();
 
-        // Initialize all men and women as free
-        // memset(wPartner, -1, sizeof(wPartner));
-        // memset(mFree, false, sizeof(mFree));
-        int freeCount = teamleads.Count;
+        int freeJuniorCount = teamleads.Count;
 
-        // While there are free men
-        while (freeCount > 0)
+        while (freeJuniorCount > 0)
         {
-            // Pick the first free man (we could pick any)
-            Junior m = new();
-            foreach (var tmp in juniors)
+            Junior firstFreeJunior = new();
+            foreach (var jun in juniors)
             {
-                if (!mFree.Contains(tmp))
+                if (!freeJuniors.Contains(jun))
                 {
-                    m = tmp;
+                    firstFreeJunior = jun;
                     break;
                 }
             }
 
-            // One by one go to all women according to m's preferences.
-            // Here m is the picked free man
-            for (int i = 0; i < teamleads.Count && !mFree.Contains(m); i++)
+            for (int i = 0; i < teamleads.Count && !freeJuniors.Contains(firstFreeJunior); i++)
             {
-                var w = junLists[m][i];
+                var teamleadOfPreference = junLists[firstFreeJunior][i];
 
-                // The woman of preference is free, w and m become
-                // partners (Note that the partnership maybe changed
-                // later). So we can say they are engaged not married
-                if (!wPartner.TryGetValue(w, out Junior? value))
+                if (!assignments.TryGetValue(teamleadOfPreference, out Junior? value))
                 {
-                    wPartner.Add(w, m);
-                    mFree.Add(m);
-                    freeCount--;
+                    assignments.Add(teamleadOfPreference, firstFreeJunior);
+                    freeJuniors.Add(firstFreeJunior);
+                    freeJuniorCount--;
                 }
-                else  // If w is not free
+                else
                 {
-                    // Find current engagement of w
-                    var m1 = value;
+                    var currentAssigement = value;
 
-                    // If w prefers m over her current engagement m1,
-                    // then break the engagement between w and m1 and
-                    // engage m with w.
-                    if (wPrefersM1OverM(teamleadLists[w], w, m, m1) == false)
+                    if (TeamLeadPrefersJun1OverJun2(teamleadLists[teamleadOfPreference], firstFreeJunior, currentAssigement) == false)
                     {
-                        wPartner[w] = m;
-                        mFree.Add(m1);
-                        mFree.Remove(m);
+                        assignments[teamleadOfPreference] = firstFreeJunior;
+                        freeJuniors.Add(currentAssigement);
+                        freeJuniors.Remove(firstFreeJunior);
                     }
-                } // End of Else
-            } // End of the for loop that goes to all women in m's list
-        } // End of main while loop
+                }
+            }
+        }
 
-
-        return wPartner;
+        return assignments;
     }
 }

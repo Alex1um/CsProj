@@ -1,7 +1,5 @@
 
 namespace CsProj.src.ObjectOriented;
-using CsProj.src.ObjectOriented.Participants;
-using CsProj.src.ObjectOriented.Extensions;
 
 static class Program
 {
