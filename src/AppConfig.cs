@@ -7,6 +7,6 @@ internal sealed class HackatonSettings
 
 internal sealed class DataSourceSettings
 {
-    public string JuniorsListPath { get; set; }
-    public string TeamleadsListPath { get; set; }
+    public required string JuniorsListPath { get; set; }
+    public required string TeamleadsListPath { get; set; }
 }

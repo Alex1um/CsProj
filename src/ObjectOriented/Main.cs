@@ -6,7 +6,6 @@ using CsProj.src;
 
 static class Program
 {
-    const int TRIES = 1;
     public static void Main(string[] args)
     {
         var host = Host.CreateDefaultBuilder(args)
