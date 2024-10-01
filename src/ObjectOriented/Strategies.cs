@@ -1,6 +1,6 @@
-namespace CsProj.HackatonApp.ObjectOriented;
+namespace CsProj.src.ObjectOriented;
 
-using CsProj.HackatonApp.ObjectOriented.Participants;
+using CsProj.src.ObjectOriented.Participants;
 
 public abstract class ITeamBuildingStrategy
 {

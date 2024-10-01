@@ -1,6 +1,6 @@
-using CsProj.HackatonApp.ObjectOriented;
+using CsProj.src.ObjectOriented;
 using Microsoft.Extensions.Hosting;
-using CsProj.HackatonApp;
+using CsProj.src;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 

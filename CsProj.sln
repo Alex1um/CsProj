@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsProj", ".\CsProj.csproj", "{FE802299-FDD6-4670-A69D-CB44B6E2481F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackatonApp.Tests", "HackatonApp.Tests\HackatonApp.Tests.csproj", "{812092EF-C66B-4F7F-8A03-CF350DA67956}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,9 +18,5 @@ Global
 		{FE802299-FDD6-4670-A69D-CB44B6E2481F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE802299-FDD6-4670-A69D-CB44B6E2481F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE802299-FDD6-4670-A69D-CB44B6E2481F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{812092EF-C66B-4F7F-8A03-CF350DA67956}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{812092EF-C66B-4F7F-8A03-CF350DA67956}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{812092EF-C66B-4F7F-8A03-CF350DA67956}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{812092EF-C66B-4F7F-8A03-CF350DA67956}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

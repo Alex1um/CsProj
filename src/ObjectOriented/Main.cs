@@ -1,8 +1,8 @@
 
-namespace CsProj.HackatonApp.ObjectOriented;
+namespace CsProj.src.ObjectOriented;
 using Microsoft.Extensions.DependencyInjection; 
 using Microsoft.Extensions.Hosting; 
-using CsProj.HackatonApp;
+using CsProj.src;
 
 static class Program
 {

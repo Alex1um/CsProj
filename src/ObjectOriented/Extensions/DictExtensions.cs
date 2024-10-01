@@ -1,5 +1,5 @@
-namespace CsProj.HackatonApp.ObjectOriented.Extensions;
-using CsProj.HackatonApp.ObjectOriented.Participants;
+namespace CsProj.src.ObjectOriented.Extensions;
+using CsProj.src.ObjectOriented.Participants;
 using System.Text;
 
 static class DictExtensions

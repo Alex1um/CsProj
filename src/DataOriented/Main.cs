@@ -1,5 +1,5 @@
 
-namespace CsProj.HackatonApp.DataOriented;
+namespace CsProj.src.DataOriented;
 
 static class Program
 {
