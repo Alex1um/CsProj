@@ -4,7 +4,7 @@ using System.Text;
 
 static class DictExtensions
 {
-    public static void Print<T, V>(this Dictionary<T, V> dict)
+    public static void PreetyPrint<T, V>(this Dictionary<T, V> dict) where T : notnull
     {
         var sb = new StringBuilder();
         sb.Append('{');

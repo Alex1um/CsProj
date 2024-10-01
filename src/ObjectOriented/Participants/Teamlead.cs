@@ -1,2 +1,7 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace CsProj.src.ObjectOriented.Participants;
-public class Teamlead() : Participant() { }
+[method: SetsRequiredMembers]
+public class Teamlead() : Participant
+{
+}
