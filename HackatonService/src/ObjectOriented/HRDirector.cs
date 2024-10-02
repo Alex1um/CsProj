@@ -3,10 +3,10 @@ namespace HackatonService.src.ObjectOriented;
 using HackatonService.src.ObjectOriented.Participants;
 using ParticipantAssignment = (Participants.Teamlead, Participants.Junior);
 
-class HRDirector
+public class HRDirector
 {
 
-    private Dictionary<ParticipantAssignment, int> CalcSatisfactionIndex(
+    public Dictionary<ParticipantAssignment, int> CalcSatisfactionIndex(
         Dictionary<Teamlead, List<Junior>> teamleadLists,
         Dictionary<Junior, List<Teamlead>> junLists,
         Dictionary<Teamlead, Junior> resultList
@@ -24,14 +24,19 @@ class HRDirector
         return result_dict;
     }
 
-    private double GetHarmonicMean(Dictionary<ParticipantAssignment, int> resultDict)
+    public double GetHarmonicMean(Dictionary<ParticipantAssignment, int> resultDict)
+    {
+        return GetHarmonicMean(resultDict.Values.ToList());
+    }
+    
+    public double GetHarmonicMean(List<int> values)
     {
         var sum = 0.0;
-        foreach (var value in resultDict.Values)
+        foreach (var value in values)
         {
             sum += 1.0 / value;
         }
-        return resultDict.Count / sum;
+        return values.Count / sum;
     }
 
     public double CalculateHarmonicMean(

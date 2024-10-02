@@ -7,6 +7,7 @@ internal static class SharedObjects {
     internal static readonly ITeamBuildingStrategy optimalStrategy = new StableMarriageTeamBuildingStrategy();
     internal static readonly HRManager randomManager = new(randomStrategy);
     internal static readonly HRManager optimalManager = new(optimalStrategy);
+    internal static readonly HRDirector hRDirector = new();
     
     internal static class CustomObjects {
 
