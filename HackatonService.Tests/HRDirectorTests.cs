@@ -23,6 +23,7 @@ public class HRDirectorTests
     
     [Theory]
     [InlineData(new int[] {2, 6}, 3)]
+    [InlineData(new int[] {3, 2, 1, 6}, 2)]
     public void TestMeanHarmonicValues(int[] values, double expected)
     {
         var evaled = hRDirector.GetHarmonicMean(values.ToList());
