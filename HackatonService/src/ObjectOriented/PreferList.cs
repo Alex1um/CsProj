@@ -1,6 +1,6 @@
-namespace CsProj.src.ObjectOriented;
+namespace HackatonService.src.ObjectOriented;
 
-using CsProj.src.ObjectOriented.Participants;
+using HackatonService.src.ObjectOriented.Participants;
 
 class PreferList<T, V> : Dictionary<T, List<V>> where T : notnull where V : Participant
 {

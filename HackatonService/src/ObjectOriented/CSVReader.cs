@@ -1,8 +1,8 @@
-namespace CsProj.src.ObjectOriented;
+namespace HackatonService.src.ObjectOriented;
 
-using CsProj.src.ObjectOriented.Participants;
+using HackatonService.src.ObjectOriented.Participants;
 
-static class CSVReader
+public static class CSVReader
 {
     public static List<T> Read<T>(string file) where T : Participant, new()
     {

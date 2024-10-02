@@ -1,4 +1,4 @@
-namespace CsProj.src.ObjectOriented.Participants;
+namespace HackatonService.src.ObjectOriented.Participants;
 
 abstract public class Participant
 {

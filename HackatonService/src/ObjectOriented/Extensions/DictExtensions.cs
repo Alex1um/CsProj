@@ -1,5 +1,5 @@
-namespace CsProj.src.ObjectOriented.Extensions;
-using CsProj.src.ObjectOriented.Participants;
+namespace HackatonService.src.ObjectOriented.Extensions;
+using HackatonService.src.ObjectOriented.Participants;
 using System.Text;
 
 static class DictExtensions

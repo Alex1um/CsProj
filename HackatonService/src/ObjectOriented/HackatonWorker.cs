@@ -1,6 +1,8 @@
-using CsProj.src.ObjectOriented;
+namespace HackatonService.src.ObjectOriented;
+
+using HackatonService.src.ObjectOriented;
 using Microsoft.Extensions.Hosting;
-using CsProj.src;
+using HackatonService.src;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 

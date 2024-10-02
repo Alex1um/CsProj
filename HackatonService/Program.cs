@@ -1,3 +1,3 @@
-﻿using CsProj.src.ObjectOriented.Participants;
+﻿using HackatonService.src.ObjectOriented.Participants;
 
-CsProj.src.ObjectOriented.Program.Main([]);
+HackatonService.src.ObjectOriented.Program.Main([]);
