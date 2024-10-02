@@ -9,8 +9,8 @@ using ParticipantAssignment = (HackatonService.src.ObjectOriented.Participants.T
 public class HRDirectorTests
 {
 
-    internal static Dictionary<ParticipantAssignment, int> scores = hRDirector.CalcSatisfactionIndex(teamleadsJuniors, juniorsTeamleads, buildedTeams);
-    internal static double mean = hRDirector.GetHarmonicMean(scores);
+    internal static Dictionary<ParticipantAssignment, int> scores = HRDirectorInstance.CalcSatisfactionIndex(TeamleadsJuniors, JuniorsTeamleads, BuildedTeams);
+    internal static double mean = HRDirectorInstance.GetHarmonicMean(scores);
 
     [Fact]
     public void TestMeanHarmonicCorectness()
@@ -26,7 +26,7 @@ public class HRDirectorTests
     [InlineData(new int[] {3, 2, 1, 6}, 2)]
     public void TestMeanHarmonicValues(int[] values, double expected)
     {
-        var evaled = hRDirector.GetHarmonicMean(values.ToList());
+        var evaled = HRDirectorInstance.GetHarmonicMean(values.ToList());
         Assert.Equal(expected, evaled);
     }
 }

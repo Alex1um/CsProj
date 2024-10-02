@@ -31,14 +31,14 @@ public class PreferenceGenerationTests {
 
     [Fact]
     public void TestJuniorsTeamleads() {
-        var preferList = juniorsTeamleads;
+        var preferList = JuniorsTeamleads;
         TestPreferListLengths(preferList, Juniors, Teamleads);
         TestPreferListRepeatations(preferList);
     }
     
     [Fact]
     public void TestTeamleadsJuniors() {
-        var preferList = teamleadsJuniors;
+        var preferList = TeamleadsJuniors;
         TestPreferListLengths(preferList, Teamleads, Juniors);
         TestPreferListRepeatations(preferList);
     }
@@ -47,7 +47,7 @@ public class PreferenceGenerationTests {
     [InlineData("Филиппова Ульяна")]
     [InlineData("Климов Михаил")]
     public void ContainsTeamleadEntry(string name) {
-        var preferList = juniorsTeamleads;
+        var preferList = JuniorsTeamleads;
         TestAllContainsName(preferList, name);
     }
     
@@ -55,7 +55,7 @@ public class PreferenceGenerationTests {
     [InlineData("Яшина Яна")]
     [InlineData("Кузьмин Глеб")]
     public void ContainsJuniorEntry(string name) {
-        var preferList = teamleadsJuniors;
+        var preferList = TeamleadsJuniors;
         TestAllContainsName(preferList, name);
     }
 }

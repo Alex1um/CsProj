@@ -12,31 +12,31 @@ public class HRManagerTests
 
     [Fact]
     public void TestRandomBuildLoadedTeam() {
-        Assert.Equal(LoadedObjects.randomTeams.Count, LoadedObjects.Teamleads.Count);
-        Assert.Equal(LoadedObjects.randomTeams.Count, LoadedObjects.Juniors.Count);
+        Assert.Equal(LoadedObjects.RandomTeams.Count, LoadedObjects.Teamleads.Count);
+        Assert.Equal(LoadedObjects.RandomTeams.Count, LoadedObjects.Juniors.Count);
     }
     
     [Fact]
     public void TestOptimalBuildLoadedTeam() {
-        Assert.Equal(LoadedObjects.optimalTeams.Count, LoadedObjects.Teamleads.Count);
-        Assert.Equal(LoadedObjects.optimalTeams.Count, LoadedObjects.Juniors.Count);
+        Assert.Equal(LoadedObjects.OptimalTeams.Count, LoadedObjects.Teamleads.Count);
+        Assert.Equal(LoadedObjects.OptimalTeams.Count, LoadedObjects.Juniors.Count);
     }
     
     [Fact]
     public void TestRandomBuildCustomTeam() {
-        Assert.Equal(CustomObjects.optimalTeams.Count, CustomObjects.Teamleads.Count);
-        Assert.Equal(CustomObjects.optimalTeams.Count, CustomObjects.Juniors.Count);
+        Assert.Equal(CustomObjects.OptimalTeams.Count, CustomObjects.Teamleads.Count);
+        Assert.Equal(CustomObjects.OptimalTeams.Count, CustomObjects.Juniors.Count);
     }
     
     [Fact]
     public void TestOptimalBuildCustomTeam() {
-        Assert.Equal(CustomObjects.optimalTeams.Count, CustomObjects.Teamleads.Count);
-        Assert.Equal(CustomObjects.optimalTeams.Count, CustomObjects.Juniors.Count);
+        Assert.Equal(CustomObjects.OptimalTeams.Count, CustomObjects.Teamleads.Count);
+        Assert.Equal(CustomObjects.OptimalTeams.Count, CustomObjects.Juniors.Count);
     }
 
     [Fact]
     public void TestOptimalBuildingStrategyCorectness() {
-        Assert.Equal(CustomObjects.buildedTeams, CustomObjects.optimalTeams);
+        Assert.Equal(CustomObjects.BuildedTeams, CustomObjects.OptimalTeams);
     }
 
 }

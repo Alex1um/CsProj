@@ -3,11 +3,11 @@ using HackatonService.src.ObjectOriented;
 using HackatonService.src.ObjectOriented.Participants;
 
 internal static class SharedObjects {
-    internal static readonly ITeamBuildingStrategy randomStrategy = new RandomTeamBuildingStrategy();
-    internal static readonly ITeamBuildingStrategy optimalStrategy = new StableMarriageTeamBuildingStrategy();
-    internal static readonly HRManager randomManager = new(randomStrategy);
-    internal static readonly HRManager optimalManager = new(optimalStrategy);
-    internal static readonly HRDirector hRDirector = new();
+    internal static readonly ITeamBuildingStrategy RandomStrategy = new RandomTeamBuildingStrategy();
+    internal static readonly ITeamBuildingStrategy OptimalStrategy = new StableMarriageTeamBuildingStrategy();
+    internal static readonly HRManager RandomManager = new(RandomStrategy);
+    internal static readonly HRManager OptimalManager = new(OptimalStrategy);
+    internal static readonly HRDirector HRDirectorInstance = new();
     
     internal static class CustomObjects {
 
@@ -38,31 +38,31 @@ internal static class SharedObjects {
         internal static readonly List<Junior> Juniors = [jun1, jun2];
         internal static readonly List<Teamlead> Teamleads = [teamlead1, teamlead2];
 
-        internal static readonly PreferList<Junior, Teamlead> juniorsTeamleads = new(new Dictionary<Junior, List<Teamlead>>() {
+        internal static readonly PreferList<Junior, Teamlead> JuniorsTeamleads = new(new Dictionary<Junior, List<Teamlead>>() {
             [jun1] = [teamlead1, teamlead2],
             [jun2] = [teamlead2, teamlead1]
         });
         
-        internal static readonly PreferList<Teamlead, Junior> teamleadsJuniors = new(new Dictionary<Teamlead, List<Junior>>() {
+        internal static readonly PreferList<Teamlead, Junior> TeamleadsJuniors = new(new Dictionary<Teamlead, List<Junior>>() {
             [teamlead1] = [jun1, jun2],
             [teamlead2] = [jun2, jun1]
         });
 
-        internal static readonly Dictionary<Teamlead, Junior> buildedTeams = new() {
+        internal static readonly Dictionary<Teamlead, Junior> BuildedTeams = new() {
             [teamlead1] = jun1,
             [teamlead2] = jun2
         };
 
-        internal static readonly Dictionary<Teamlead, Junior> randomTeams = randomManager.BuildTeams(Teamleads, Juniors, teamleadsJuniors, juniorsTeamleads); 
-        internal static readonly Dictionary<Teamlead, Junior> optimalTeams = optimalManager.BuildTeams(Teamleads, Juniors, teamleadsJuniors, juniorsTeamleads); 
+        internal static readonly Dictionary<Teamlead, Junior> RandomTeams = RandomManager.BuildTeams(Teamleads, Juniors, TeamleadsJuniors, JuniorsTeamleads); 
+        internal static readonly Dictionary<Teamlead, Junior> OptimalTeams = OptimalManager.BuildTeams(Teamleads, Juniors, TeamleadsJuniors, JuniorsTeamleads); 
     } 
 
     internal static class LoadedObjects {
         internal static readonly List<Teamlead> Teamleads = LoaderTests.ReadFromPath<Teamlead>("CSHARP_2024_NSU/Teamleads20.csv");
         internal static readonly List<Junior> Juniors = LoaderTests.ReadFromPath<Junior>("CSHARP_2024_NSU/Juniors20.csv");
-        internal static readonly PreferList<Junior, Teamlead> juniorsTeamleads = new(Juniors, Teamleads);
-        internal static readonly PreferList<Teamlead, Junior> teamleadsJuniors = new(Teamleads, Juniors);    
-        internal static readonly Dictionary<Teamlead, Junior> randomTeams = randomManager.BuildTeams(Teamleads, Juniors, teamleadsJuniors, juniorsTeamleads); 
-        internal static readonly Dictionary<Teamlead, Junior> optimalTeams = optimalManager.BuildTeams(Teamleads, Juniors, teamleadsJuniors, juniorsTeamleads); 
+        internal static readonly PreferList<Junior, Teamlead> JuniorsTeamleads = new(Juniors, Teamleads);
+        internal static readonly PreferList<Teamlead, Junior> TeamleadsJuniors = new(Teamleads, Juniors);    
+        internal static readonly Dictionary<Teamlead, Junior> RandomTeams = RandomManager.BuildTeams(Teamleads, Juniors, TeamleadsJuniors, JuniorsTeamleads); 
+        internal static readonly Dictionary<Teamlead, Junior> OptimalTeams = OptimalManager.BuildTeams(Teamleads, Juniors, TeamleadsJuniors, JuniorsTeamleads); 
     }
 }
