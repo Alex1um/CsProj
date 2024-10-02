@@ -2,7 +2,7 @@ namespace HackatonService.src.ObjectOriented;
 
 using HackatonService.src.ObjectOriented.Participants;
 
-class HRManager(ITeamBuildingStrategy strategy) 
+public class HRManager(ITeamBuildingStrategy strategy) 
 {
 
     private readonly ITeamBuildingStrategy strategy = strategy;
