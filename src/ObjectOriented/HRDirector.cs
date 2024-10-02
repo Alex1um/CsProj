@@ -7,8 +7,8 @@ class HRDirector
 {
 
     private Dictionary<Assignment, int> CalcSatisfactionIndex(
-        Dictionary<Teamlead, List<Junior>> teamleadLists,
-        Dictionary<Junior, List<Teamlead>> junLists,
+        PreferList<Teamlead, Junior> teamleadLists,
+        PreferList<Junior, Teamlead> junLists,
         Dictionary<Teamlead, Junior> resultList
     )
     {
@@ -16,9 +16,9 @@ class HRDirector
         foreach (var (teamlead, junior) in resultList)
         {
             var team_lead_index = junLists[junior].IndexOf(teamlead);
-            var team_lead_score = 20 - team_lead_index;
+            var team_lead_score = junLists[junior].Count - team_lead_index;
             var junior_index = teamleadLists[teamlead].IndexOf(junior);
-            var junior_score = 20 - junior_index;
+            var junior_score = teamleadLists[teamlead].Count - junior_index;
             result_dict[(teamlead, junior)] = team_lead_score + junior_score;
         }
         return result_dict;
@@ -35,8 +35,8 @@ class HRDirector
     }
 
     public double CalculateHarmonicMean(
-        Dictionary<Teamlead, List<Junior>> teamleadLists,
-        Dictionary<Junior, List<Teamlead>> junLists,
+        PreferList<Teamlead, Junior> teamleadLists,
+        PreferList<Junior, Teamlead> junLists,
         Dictionary<Teamlead, Junior> resultList
     )
     {
