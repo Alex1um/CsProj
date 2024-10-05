@@ -1,9 +1,9 @@
 namespace HackatonService.Tests;
-using HackatonService.src.ObjectOriented;
-using HackatonService.src.ObjectOriented.Participants;
+using HackatonService;
+using HackatonService.Participants;
 using static HackatonService.Tests.SharedObjects;
 using static HackatonService.Tests.SharedObjects.CustomObjects;
-using ParticipantAssignment = (HackatonService.src.ObjectOriented.Participants.Teamlead, HackatonService.src.ObjectOriented.Participants.Junior);
+using ParticipantAssignment = (HackatonService.Participants.Teamlead, HackatonService.Participants.Junior);
 
 
 public class HRDirectorTests

@@ -1,6 +1,6 @@
 namespace HackatonService.Tests;
-using HackatonService.src.ObjectOriented;
-using HackatonService.src.ObjectOriented.Participants;
+using HackatonService;
+using HackatonService.Participants;
 
 internal static class SharedObjects {
     internal static readonly ITeamBuildingStrategy RandomStrategy = new RandomTeamBuildingStrategy();

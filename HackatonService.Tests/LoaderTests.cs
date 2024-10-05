@@ -1,6 +1,7 @@
 namespace HackatonService.Tests;
-using HackatonService.src.ObjectOriented;
-using HackatonService.src.ObjectOriented.Participants;
+using HackatonService;
+using HackatonService.Participants;
+using HackatonService.DataIO;
 
 public class LoaderTests
 {

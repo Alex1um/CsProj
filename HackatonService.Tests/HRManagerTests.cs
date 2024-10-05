@@ -1,6 +1,6 @@
 namespace HackatonService.Tests;
-using HackatonService.src.ObjectOriented;
-using HackatonService.src.ObjectOriented.Participants;
+using HackatonService;
+using HackatonService.Participants;
 using static HackatonService.Tests.SharedObjects;
 
 public class HRManagerTests

@@ -11,7 +11,7 @@ static class Program
             .ConfigureServices((hostContext, services) => {
                 services.AddHostedService<HackatonWorker>();
                 services.AddTransient<Hackaton>();
-                // services.AddTransient<ITeamBuildingStrategy, RandomTeamBuildingStrategy>();
+                services.AddTransient<ITeamBuildingStrategy, RandomTeamBuildingStrategy>();
                 services.AddTransient<ITeamBuildingStrategy, StableMarriageTeamBuildingStrategy>();
                 services.AddTransient<HRManager>();
                 services.AddTransient<HRDirector>();
