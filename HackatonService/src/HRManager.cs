@@ -1,6 +1,6 @@
-namespace HackatonService.src.ObjectOriented;
+namespace HackatonService;
 
-using HackatonService.src.ObjectOriented.Participants;
+using HackatonService.Participants;
 
 public class HRManager(ITeamBuildingStrategy strategy) 
 {

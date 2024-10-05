@@ -1,3 +1,5 @@
+namespace HackatonService.Extensions;
+
 public static class ListExtensions
 {
 

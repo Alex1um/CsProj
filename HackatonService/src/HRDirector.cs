@@ -1,6 +1,6 @@
-namespace HackatonService.src.ObjectOriented;
+namespace HackatonService;
 
-using HackatonService.src.ObjectOriented.Participants;
+using HackatonService.Participants;
 using ParticipantAssignment = (Participants.Teamlead, Participants.Junior);
 
 public class HRDirector

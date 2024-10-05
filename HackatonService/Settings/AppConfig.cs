@@ -1,4 +1,4 @@
-namespace HackatonService.src;
+namespace HackatonService.Settings;
 
 internal sealed class HackatonSettings
 {

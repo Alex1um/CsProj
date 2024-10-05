@@ -1,4 +1,5 @@
-namespace HackatonService.src.ObjectOriented.Participants;
+namespace HackatonService.Participants;
+using HackatonService.Extensions;
 
 abstract public class Participant
 {

@@ -1,6 +1,8 @@
-namespace HackatonService.src.ObjectOriented;
+namespace HackatonService;
 
-using HackatonService.src.ObjectOriented.Participants;
+using HackatonService.Participants;
+using HackatonService.Settings;
+using HackatonService.DataIO;
 using Microsoft.Extensions.Options;
 
 class Hackaton(IOptions<DataSourceSettings> sourcesSettings)

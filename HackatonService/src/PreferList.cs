@@ -1,7 +1,7 @@
-namespace HackatonService.src.ObjectOriented;
+namespace HackatonService;
 
 using System.Runtime.CompilerServices;
-using HackatonService.src.ObjectOriented.Participants;
+using HackatonService.Participants;
 
 public class PreferList<T, V> : Dictionary<T, List<V>> where T : notnull where V : Participant
 {

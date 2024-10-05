@@ -1,5 +1,5 @@
-namespace HackatonService.src.ObjectOriented.Extensions;
-using HackatonService.src.ObjectOriented.Participants;
+namespace HackatonService.Extensions;
+using HackatonService.Participants;
 using System.Text;
 
 static class DictExtensions

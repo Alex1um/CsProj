@@ -1,10 +1,9 @@
-namespace HackatonService.src.ObjectOriented;
+namespace HackatonService;
 
-using HackatonService.src.ObjectOriented;
 using Microsoft.Extensions.Hosting;
-using HackatonService.src;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
+using HackatonService.Settings;
 
 class HackatonWorker(ILogger<HackatonWorker> logger, IHostApplicationLifetime appLifetime, IOptions<HackatonSettings> appConfig, Hackaton hackaton, HRManager manager, HRDirector director) : IHostedService
 {
