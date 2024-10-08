@@ -1,29 +1,25 @@
 namespace HackatonService;
 
 using System.Collections.Frozen;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using HackatonService.Participants;
 
-public class PreferencesStore<T, V> where T : notnull where V : Participant
-{
-    private Dictionary<T, List<V>> _Dict = new();
+public abstract class PreferencesStore<T, V> : FrozenDictionary<T, List<V>> where T : notnull where V : Participant { 
+}
 
-    public PreferencesStore(List<T> t, List<V> v) : base()
+public static class PreferencesStore
+{
+    public static PreferencesStore<T, V> ToPreferencesStore<T, V>(this List<T> t, List<V> v) where T : notnull where V : Participant
     {
+        var _Dict = new Dictionary<T, List<V>>();
         foreach (var item in t)
         {
             _Dict.Add(item, Participant.CreateList(v));
         }
+        return (PreferencesStore<T, V>)_Dict.ToFrozenDictionary();
     }
 
-    public List<V> this[T key] { get => _Dict[key]; }
-
-    public Dictionary<T, List<V>>.Enumerator GetEnumerator() {
-        return _Dict.GetEnumerator();
-    }
-
-    public int Count { get => _Dict.Count; }
-
-    public PreferencesStore(Dictionary<T, List<V>> dict) { _Dict = dict; }
+    public static PreferencesStore<T, V> ToPreferencesStore<T, V>(this Dictionary<T, List<V>> dict) where T : notnull where V : Participant { return (PreferencesStore<T, V>)dict.ToFrozenDictionary(); }
 
 }
