@@ -38,12 +38,12 @@ internal static class SharedObjects {
         internal static readonly List<Junior> Juniors = [jun1, jun2];
         internal static readonly List<Teamlead> Teamleads = [teamlead1, teamlead2];
 
-        internal static readonly PreferList<Junior, Teamlead> JuniorsTeamleads = new(new Dictionary<Junior, List<Teamlead>>() {
+        internal static readonly PreferencesStore<Junior, Teamlead> JuniorsTeamleads = new(new Dictionary<Junior, List<Teamlead>>() {
             [jun1] = [teamlead1, teamlead2],
             [jun2] = [teamlead2, teamlead1]
         });
         
-        internal static readonly PreferList<Teamlead, Junior> TeamleadsJuniors = new(new Dictionary<Teamlead, List<Junior>>() {
+        internal static readonly PreferencesStore<Teamlead, Junior> TeamleadsJuniors = new(new Dictionary<Teamlead, List<Junior>>() {
             [teamlead1] = [jun1, jun2],
             [teamlead2] = [jun2, jun1]
         });
@@ -60,8 +60,8 @@ internal static class SharedObjects {
     internal static class LoadedObjects {
         internal static readonly List<Teamlead> Teamleads = LoaderTests.ReadFromPath<Teamlead>("CSHARP_2024_NSU/Teamleads20.csv");
         internal static readonly List<Junior> Juniors = LoaderTests.ReadFromPath<Junior>("CSHARP_2024_NSU/Juniors20.csv");
-        internal static readonly PreferList<Junior, Teamlead> JuniorsTeamleads = new(Juniors, Teamleads);
-        internal static readonly PreferList<Teamlead, Junior> TeamleadsJuniors = new(Teamleads, Juniors);    
+        internal static readonly PreferencesStore<Junior, Teamlead> JuniorsTeamleads = new(Juniors, Teamleads);
+        internal static readonly PreferencesStore<Teamlead, Junior> TeamleadsJuniors = new(Teamleads, Juniors);    
         internal static readonly Dictionary<Teamlead, Junior> RandomTeams = RandomManager.BuildTeams(Teamleads, Juniors, TeamleadsJuniors, JuniorsTeamleads); 
         internal static readonly Dictionary<Teamlead, Junior> OptimalTeams = OptimalManager.BuildTeams(Teamleads, Juniors, TeamleadsJuniors, JuniorsTeamleads); 
     }

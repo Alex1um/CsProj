@@ -7,8 +7,8 @@ public abstract class ITeamBuildingStrategy
     public abstract Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
-        Dictionary<Teamlead, List<Junior>> teamleadLists,
-        Dictionary<Junior, List<Teamlead>> junLists
+        PreferencesStore<Teamlead, Junior> teamleadPrefStore,
+        PreferencesStore<Junior, Teamlead> junPrefStore
         );
 }
 
@@ -16,8 +16,8 @@ public class RandomTeamBuildingStrategy : ITeamBuildingStrategy {
     public override Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
-        Dictionary<Teamlead, List<Junior>> teamleadLists,
-        Dictionary<Junior, List<Teamlead>> junLists
+        PreferencesStore<Teamlead, Junior> teamleadPrefStore,
+        PreferencesStore<Junior, Teamlead> junPrefStore
         )
     {
         var random = new Random();
@@ -37,8 +37,8 @@ public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
     public override Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
-        Dictionary<Teamlead, List<Junior>> teamleadLists,
-        Dictionary<Junior, List<Teamlead>> junLists
+        PreferencesStore<Teamlead, Junior> teamleadPrefStore,
+        PreferencesStore<Junior, Teamlead> junPrefStore
         )
     {
         static bool TeamLeadPrefersJun1OverJun2(List<Junior> prefer, Junior m, Junior m1)
@@ -69,7 +69,7 @@ public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
 
             for (int i = 0; i < teamleads.Count && !freeJuniors.Contains(firstFreeJunior); i++)
             {
-                var teamleadOfPreference = junLists[firstFreeJunior][i];
+                var teamleadOfPreference = junPrefStore[firstFreeJunior][i];
 
                 if (!assignments.TryGetValue(teamleadOfPreference, out Junior? value))
                 {
@@ -81,7 +81,7 @@ public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
                 {
                     var currentAssigement = value;
 
-                    if (TeamLeadPrefersJun1OverJun2(teamleadLists[teamleadOfPreference], firstFreeJunior, currentAssigement) == false)
+                    if (TeamLeadPrefersJun1OverJun2(teamleadPrefStore[teamleadOfPreference], firstFreeJunior, currentAssigement) == false)
                     {
                         assignments[teamleadOfPreference] = firstFreeJunior;
                         freeJuniors.Add(currentAssigement);

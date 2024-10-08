@@ -10,8 +10,8 @@ public class HRManager(ITeamBuildingStrategy strategy)
     public Dictionary<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
-        PreferList<Teamlead, Junior> teamleadLists,
-        PreferList<Junior, Teamlead> junLists
+        PreferencesStore<Teamlead, Junior> teamleadLists,
+        PreferencesStore<Junior, Teamlead> junLists
     )
     {
         return strategy.BuildTeams(teamleads, juniors, teamleadLists, junLists);

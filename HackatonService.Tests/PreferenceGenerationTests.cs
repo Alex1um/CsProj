@@ -6,7 +6,7 @@ using static HackatonService.Tests.SharedObjects.LoadedObjects;
 public class PreferenceGenerationTests {
 
 
-    private void TestPreferListLengths<T, U>(PreferList<T, U> preferList, List<T> units, List<U> preferable) where T : notnull where U : Participant{
+    private void TestPreferListLengths<T, U>(PreferencesStore<T, U> preferList, List<T> units, List<U> preferable) where T : notnull where U : Participant{
         Assert.Equal(units.Count, preferList.Count);
         foreach (var (unit, prefered) in preferList)
         {
@@ -14,7 +14,7 @@ public class PreferenceGenerationTests {
         }
     }
     
-    private void TestPreferListRepeatations<T, U>(PreferList<T, U> preferList) where T : notnull where U : Participant{
+    private void TestPreferListRepeatations<T, U>(PreferencesStore<T, U> preferList) where T : notnull where U : Participant{
         foreach (var (unit, prefered) in preferList)
         {
             var hs = new HashSet<U>(prefered);
@@ -22,7 +22,7 @@ public class PreferenceGenerationTests {
         }
     }
     
-    private void TestAllContainsName<T, U>(PreferList<T, U> preferList, string participant) where T : notnull where U : Participant{
+    private void TestAllContainsName<T, U>(PreferencesStore<T, U> preferList, string participant) where T : notnull where U : Participant{
         foreach (var (unit, prefered) in preferList)
         {
             Assert.Contains(participant, prefered.Select(p => p.Name));

@@ -7,8 +7,8 @@ public class HRDirector
 {
 
     public Dictionary<ParticipantAssignment, int> CalcSatisfactionIndex(
-        PreferList<Teamlead, Junior> teamleadLists,
-        PreferList<Junior, Teamlead> junLists,
+        PreferencesStore<Teamlead, Junior> teamleadLists,
+        PreferencesStore<Junior, Teamlead> junLists,
         Dictionary<Teamlead, Junior> resultList
     )
     {
@@ -40,8 +40,8 @@ public class HRDirector
     }
 
     public double CalculateHarmonicMean(
-        PreferList<Teamlead, Junior> teamleadLists,
-        PreferList<Junior, Teamlead> junLists,
+        PreferencesStore<Teamlead, Junior> teamleadLists,
+        PreferencesStore<Junior, Teamlead> junLists,
         Dictionary<Teamlead, Junior> resultList
     )
     {
