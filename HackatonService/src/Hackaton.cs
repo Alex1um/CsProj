@@ -13,8 +13,8 @@ class Hackaton(IOptions<DataSourceSettings> sourcesSettings)
     public double Run(HRManager manager, HRDirector director) {
         var junLists = new PreferencesStore<Junior, Teamlead>(Juniors, Teamleads);
         var teamleadLists = new PreferencesStore<Teamlead, Junior>(Teamleads, Juniors);
-        var result_dict = manager.BuildTeams(Teamleads, Juniors, teamleadLists, junLists);
-        return director.CalculateHarmonicMean(teamleadLists, junLists, result_dict);
+        var resultDict = manager.BuildTeams(Teamleads, Juniors, teamleadLists, junLists);
+        return director.CalculateHarmonicMean(teamleadLists, junLists, resultDict);
     }
 
 }

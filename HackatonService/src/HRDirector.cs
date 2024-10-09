@@ -12,16 +12,16 @@ public class HRDirector
         Dictionary<Teamlead, Junior> resultList
     )
     {
-        var result_dict = new Dictionary<ParticipantAssignment, int>();
+        var resultDict = new Dictionary<ParticipantAssignment, int>();
         foreach (var (teamlead, junior) in resultList)
         {
-            var team_lead_index = junLists[junior].IndexOf(teamlead);
-            var team_lead_score = junLists[junior].Count - team_lead_index;
-            var junior_index = teamleadLists[teamlead].IndexOf(junior);
-            var junior_score = teamleadLists[teamlead].Count - junior_index;
-            result_dict[(teamlead, junior)] = team_lead_score + junior_score;
+            var teamLeadIndex = junLists[junior].IndexOf(teamlead);
+            var teamLeadScore = junLists[junior].Count - teamLeadIndex;
+            var juniorIndex = teamleadLists[teamlead].IndexOf(junior);
+            var juniorScore = teamleadLists[teamlead].Count - juniorIndex;
+            resultDict[(teamlead, junior)] = teamLeadScore + juniorScore;
         }
-        return result_dict;
+        return resultDict;
     }
 
     public double GetHarmonicMean(Dictionary<ParticipantAssignment, int> resultDict)

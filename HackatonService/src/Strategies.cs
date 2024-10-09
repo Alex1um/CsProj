@@ -21,14 +21,14 @@ public class RandomTeamBuildingStrategy : ITeamBuildingStrategy {
         )
     {
         var random = new Random();
-        var juniors_shuffled = juniors.OrderBy(x => random.Next()).ToList();
-        var teamleads_shuffled = teamleads.OrderBy(x => random.Next()).ToList();
-        var result_list = new Dictionary<Teamlead, Junior>();
-        for (int i = 0; i < juniors_shuffled.Count; i++)
+        var juniorsShuffled = juniors.OrderBy(x => random.Next()).ToList();
+        var teamleadsShuffled = teamleads.OrderBy(x => random.Next()).ToList();
+        var resultList = new Dictionary<Teamlead, Junior>();
+        for (int i = 0; i < juniorsShuffled.Count; i++)
         {
-            result_list.Add(teamleads_shuffled[i], juniors_shuffled[i]);
+            resultList.Add(teamleadsShuffled[i], juniorsShuffled[i]);
         }
-        return result_list;
+        return resultList;
     }
 }
 public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
