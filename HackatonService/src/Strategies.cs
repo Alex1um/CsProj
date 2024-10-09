@@ -4,7 +4,7 @@ using HackatonService.Participants;
 
 public abstract class ITeamBuildingStrategy
 {
-    public abstract Dictionary<Teamlead, Junior> BuildTeams(
+    public abstract AssignmentStore<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         PreferencesStore<Teamlead, Junior> teamleadPrefStore,
@@ -13,7 +13,7 @@ public abstract class ITeamBuildingStrategy
 }
 
 public class RandomTeamBuildingStrategy : ITeamBuildingStrategy {
-    public override Dictionary<Teamlead, Junior> BuildTeams(
+    public override AssignmentStore<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         PreferencesStore<Teamlead, Junior> teamleadPrefStore,
@@ -28,13 +28,13 @@ public class RandomTeamBuildingStrategy : ITeamBuildingStrategy {
         {
             resultList.Add(teamleadsShuffled[i], juniorsShuffled[i]);
         }
-        return resultList;
+        return new AssignmentStore<Teamlead, Junior>(resultList);
     }
 }
 public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
 {
 
-    public override Dictionary<Teamlead, Junior> BuildTeams(
+    public override AssignmentStore<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         PreferencesStore<Teamlead, Junior> teamleadPrefStore,
@@ -91,6 +91,6 @@ public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
             }
         }
 
-        return assignments;
+        return new AssignmentStore<Teamlead, Junior>(assignments);
     }
 }
