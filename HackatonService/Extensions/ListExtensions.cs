@@ -15,6 +15,16 @@ public static class ListExtensions
         return [.. arr];
     }
 
+    static public double GetHarmonicMean(this List<int> list)
+    {
+        var sum = 0.0;
+        for (int i = 0; i < list.Count; i++)
+        {
+            sum += 1.0 / list[i];
+        }
+        return list.Count / sum;
+    }
+
     static public void Print<T>(this List<T> list)
     {
         if (list.Count < 20)

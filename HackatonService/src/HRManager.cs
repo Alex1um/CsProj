@@ -7,7 +7,7 @@ public class HRManager(ITeamBuildingStrategy strategy)
 
     private readonly ITeamBuildingStrategy strategy = strategy;
 
-    public Dictionary<Teamlead, Junior> BuildTeams(
+    public AssignmentStore<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         PreferencesStore<Teamlead, Junior> teamleadLists,
