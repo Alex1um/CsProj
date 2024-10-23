@@ -1,16 +1,15 @@
 namespace HackatonService.Tests;
-using HackatonService;
-using HackatonService.Participants;
 using static HackatonService.Tests.SharedObjects;
 using static HackatonService.Tests.SharedObjects.CustomObjects;
-using ParticipantAssignment = (HackatonService.Participants.Teamlead, HackatonService.Participants.Junior);
-
+using HackatonService.Extensions;
+using HackatonService;
+using HackatonService.Participants;
 
 public class HRDirectorTests
 {
 
-    internal static Dictionary<ParticipantAssignment, int> scores = HRDirectorInstance.CalcSatisfactionIndex(TeamleadsJuniors, JuniorsTeamleads, BuildedTeams);
-    internal static double mean = HRDirectorInstance.GetHarmonicMean(scores);
+    internal static Dictionary<Assignment<Teamlead, Junior>, int> scores = HRDirectorInstance.CalcSatisfactionIndex(TeamleadsJuniors, JuniorsTeamleads, BuildedTeams);
+    internal static double mean = scores.Values.ToList().GetHarmonicMean();
 
     [Fact]
     public void TestMeanHarmonicCorectness()
@@ -26,7 +25,7 @@ public class HRDirectorTests
     [InlineData(new int[] {3, 2, 1, 6}, 2)]
     public void TestMeanHarmonicValues(int[] values, double expected)
     {
-        var evaled = HRDirectorInstance.GetHarmonicMean(values.ToList());
+        var evaled = values.ToList().GetHarmonicMean();
         Assert.Equal(expected, evaled);
     }
 }

@@ -6,20 +6,25 @@ using HackatonService.DataIO;
 public class LoaderTests
 {
     internal static List<T> ReadFromPath<T>(string path) where T : Participant, new() {
-        var full_path = PathUtils.GetFromProjectPath(path);
-        var list = CSVReader.Read<T>(full_path);
+        var fullPath = PathUtils.GetFromProjectPath(path);
+        var list = CSVReader.Read<T>(fullPath);
         return list;
     }
 
-    internal static List<T> ReadFromPath<T>(FullPath full_path) where T : Participant, new() {
-        var list = CSVReader.Read<T>(full_path);
+    internal static List<T> ReadFromPath<T>(FullPath fullPath) where T : Participant, new() {
+        var list = CSVReader.Read<T>(fullPath);
+        return list;
+    }
+    
+    internal static List<T> ReadFromRawPath<T>(string fullPath) where T : Participant, new() {
+        var list = CSVReader.Read<T>(fullPath);
         return list;
     }
 
     void TestLineCount<T>(string path) where T : Participant, new() {
-        var full_path = PathUtils.GetFromProjectPath(path);
-        var list = ReadFromPath<T>(full_path);
-        var lines = File.ReadLines(full_path).Count();
+        var fullPath = PathUtils.GetFromProjectPath(path);
+        var list = ReadFromPath<T>(fullPath);
+        var lines = File.ReadLines(fullPath).Count();
         Assert.Equal(lines - 1, list.Count);
     }
 

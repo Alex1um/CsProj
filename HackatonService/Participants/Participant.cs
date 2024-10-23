@@ -6,9 +6,9 @@ abstract public class Participant
     public required int Id { get; init; }
     public required string Name { get; init; }
 
-    public static List<T> CreateList<T>(List<T> other_list) where T : Participant
+    public static List<T> CreateList<T>(List<T> otherList) where T : Participant
     {
-        return other_list.GetShuffled();
+        return otherList.GetShuffled();
     }
 
     public override string ToString()

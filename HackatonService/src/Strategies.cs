@@ -1,10 +1,11 @@
 namespace HackatonService;
 
+using HackatonService.Extensions;
 using HackatonService.Participants;
 
 public abstract class ITeamBuildingStrategy
 {
-    public abstract Dictionary<Teamlead, Junior> BuildTeams(
+    public abstract AssignmentStore<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         PreferencesStore<Teamlead, Junior> teamleadPrefStore,
@@ -13,34 +14,40 @@ public abstract class ITeamBuildingStrategy
 }
 
 public class RandomTeamBuildingStrategy : ITeamBuildingStrategy {
-    public override Dictionary<Teamlead, Junior> BuildTeams(
+    public override AssignmentStore<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         PreferencesStore<Teamlead, Junior> teamleadPrefStore,
         PreferencesStore<Junior, Teamlead> junPrefStore
         )
     {
-        var random = new Random();
-        var juniors_shuffled = juniors.OrderBy(x => random.Next()).ToList();
-        var teamleads_shuffled = teamleads.OrderBy(x => random.Next()).ToList();
-        var result_list = new Dictionary<Teamlead, Junior>();
-        for (int i = 0; i < juniors_shuffled.Count; i++)
-        {
-            result_list.Add(teamleads_shuffled[i], juniors_shuffled[i]);
+        if (teamleads.Count != juniors.Count) {
+            throw new Exception("Lists must have same length");
         }
-        return result_list;
+        var random = new Random();
+        var juniorsShuffled = juniors.OrderBy(x => random.Next()).ToList();
+        var teamleadsShuffled = teamleads.OrderBy(x => random.Next()).ToList();
+        var resultList = new Dictionary<Teamlead, Junior>();
+        for (int i = 0; i < juniorsShuffled.Count; i++)
+        {
+            resultList.Add(teamleadsShuffled[i], juniorsShuffled[i]);
+        }
+        return new AssignmentStore<Teamlead, Junior>(resultList);
     }
 }
 public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
 {
 
-    public override Dictionary<Teamlead, Junior> BuildTeams(
+    public override AssignmentStore<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         PreferencesStore<Teamlead, Junior> teamleadPrefStore,
         PreferencesStore<Junior, Teamlead> junPrefStore
         )
     {
+        if (teamleads.Count != juniors.Count || teamleadPrefStore.Count != teamleads.Count || junPrefStore.Count != juniors.Count) {
+            throw new Exception("Lists must have same length");
+        }
         static bool TeamLeadPrefersJun1OverJun2(List<Junior> prefer, Junior m, Junior m1)
         {
             return prefer.IndexOf(m1) < prefer.IndexOf(m);
@@ -91,6 +98,6 @@ public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
             }
         }
 
-        return assignments;
+        return new AssignmentStore<Teamlead, Junior>(assignments);
     }
 }
