@@ -15,6 +15,11 @@ public class LoaderTests
         var list = CSVReader.Read<T>(fullPath);
         return list;
     }
+    
+    internal static List<T> ReadFromRawPath<T>(string fullPath) where T : Participant, new() {
+        var list = CSVReader.Read<T>(fullPath);
+        return list;
+    }
 
     void TestLineCount<T>(string path) where T : Participant, new() {
         var fullPath = PathUtils.GetFromProjectPath(path);

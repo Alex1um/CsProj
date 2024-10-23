@@ -71,4 +71,13 @@ internal static class SharedObjects
         internal static readonly AssignmentStore<Teamlead, Junior> RandomTeams = RandomManager.BuildTeams(Teamleads, Juniors, TeamleadsJuniors, JuniorsTeamleads);
         internal static readonly AssignmentStore<Teamlead, Junior> OptimalTeams = OptimalManager.BuildTeams(Teamleads, Juniors, TeamleadsJuniors, JuniorsTeamleads);
     }
+    internal static class LoadedObjects5
+    {
+        internal static readonly List<Teamlead> Teamleads5 = LoaderTests.ReadFromPath<Teamlead>("CSHARP_2024_NSU/Teamleads5.csv");
+        internal static readonly List<Junior> Juniors5 = LoaderTests.ReadFromPath<Junior>("CSHARP_2024_NSU/Juniors5.csv");
+        internal static readonly PreferencesStore<Junior, Teamlead> JuniorsTeamleads5 = new(Juniors5, Teamleads5);
+        internal static readonly PreferencesStore<Teamlead, Junior> TeamleadsJuniors5 = new(Teamleads5, Juniors5);
+        internal static readonly AssignmentStore<Teamlead, Junior> RandomTeams5 = RandomManager.BuildTeams(Teamleads5, Juniors5, TeamleadsJuniors5, JuniorsTeamleads5);
+        internal static readonly AssignmentStore<Teamlead, Junior> OptimalTeams5 = OptimalManager.BuildTeams(Teamleads5, Juniors5, TeamleadsJuniors5, JuniorsTeamleads5);
+    }
 }

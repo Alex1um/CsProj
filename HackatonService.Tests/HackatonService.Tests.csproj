@@ -24,6 +24,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HackatonService\HackatonService.csproj" />
+    <Content Include="..\HackatonService\appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

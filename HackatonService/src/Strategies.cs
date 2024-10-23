@@ -1,5 +1,6 @@
 namespace HackatonService;
 
+using HackatonService.Extensions;
 using HackatonService.Participants;
 
 public abstract class ITeamBuildingStrategy
@@ -20,6 +21,9 @@ public class RandomTeamBuildingStrategy : ITeamBuildingStrategy {
         PreferencesStore<Junior, Teamlead> junPrefStore
         )
     {
+        if (teamleads.Count != juniors.Count) {
+            throw new Exception("Lists must have same length");
+        }
         var random = new Random();
         var juniorsShuffled = juniors.OrderBy(x => random.Next()).ToList();
         var teamleadsShuffled = teamleads.OrderBy(x => random.Next()).ToList();
@@ -41,6 +45,9 @@ public class StableMarriageTeamBuildingStrategy : ITeamBuildingStrategy
         PreferencesStore<Junior, Teamlead> junPrefStore
         )
     {
+        if (teamleads.Count != juniors.Count || teamleadPrefStore.Count != teamleads.Count || junPrefStore.Count != juniors.Count) {
+            throw new Exception("Lists must have same length");
+        }
         static bool TeamLeadPrefersJun1OverJun2(List<Junior> prefer, Junior m, Junior m1)
         {
             return prefer.IndexOf(m1) < prefer.IndexOf(m);
