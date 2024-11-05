@@ -1,7 +1,6 @@
 namespace HackatonService.Tests;
 using HackatonService;
 using HackatonService.Participants;
-using static HackatonService.Tests.SharedObjects.LoadedObjects;
 
 public class PreferenceGenerationTests {
 
@@ -31,15 +30,35 @@ public class PreferenceGenerationTests {
 
     [Fact]
     public void TestJuniorsTeamleads() {
-        var preferList = JuniorsTeamleads;
-        TestPreferListLengths(preferList, Juniors, Teamleads);
+        var juniors = new List<Junior>() {
+            new() { Name = "Junior1"},
+            new() { Name = "Junior2"},
+            new() { Name = "Junior3"},
+            new() { Name = "Junior4"},
+        };
+        var teamleads = new List<Teamlead>() {
+            new() { Name = "Teamlead1"},
+            new() { Name = "Teamlead2"},
+            new() { Name = "Teamlead3"},
+            new() { Name = "Teamlead4"},
+        };
+        PreferencesStore<Junior, Teamlead> preferList = new(juniors, teamleads);
+        TestPreferListLengths(preferList, juniors, teamleads);
         TestPreferListRepeatations(preferList);
     }
     
     [Fact]
     public void TestTeamleadsJuniors() {
-        var preferList = TeamleadsJuniors;
-        TestPreferListLengths(preferList, Teamleads, Juniors);
+        var juniors = new List<Junior>() {
+            new() { Name = "Junior3"},
+            new() { Name = "Junior4"},
+        };
+        var teamleads = new List<Teamlead>() {
+            new() { Name = "Teamlead3"},
+            new() { Name = "Teamlead4"},
+        };
+        PreferencesStore<Teamlead, Junior> preferList = new(teamleads, juniors);
+        TestPreferListLengths(preferList, teamleads, juniors);
         TestPreferListRepeatations(preferList);
     }
 
@@ -47,7 +66,19 @@ public class PreferenceGenerationTests {
     [InlineData("Филиппова Ульяна")]
     [InlineData("Климов Михаил")]
     public void ContainsTeamleadEntry(string name) {
-        var preferList = JuniorsTeamleads;
+        var juniors = new List<Junior>() {
+            new() { Name = "Junior1"},
+            new() { Name = "Junior2"},
+            new() { Name = "Junior3"},
+            new() { Name = "Junior4"},
+        };
+        var teamleads = new List<Teamlead>() {
+            new() { Name = "Teamlead1"},
+            new() { Name = "Климов Михаил"},
+            new() { Name = "Филиппова Ульяна"},
+            new() { Name = "Teamlead4"},
+        };
+        PreferencesStore<Junior, Teamlead> preferList = new(juniors, teamleads);
         TestAllContainsName(preferList, name);
     }
     
@@ -55,7 +86,19 @@ public class PreferenceGenerationTests {
     [InlineData("Яшина Яна")]
     [InlineData("Кузьмин Глеб")]
     public void ContainsJuniorEntry(string name) {
-        var preferList = TeamleadsJuniors;
+        var juniors = new List<Junior>() {
+            new() { Name = "Junior1"},
+            new() { Name = "Яшина Яна"},
+            new() { Name = "Кузьмин Глеб"},
+            new() { Name = "Junior4"},
+        };
+        var teamleads = new List<Teamlead>() {
+            new() { Name = "Teamlead1"},
+            new() { Name = "Teamlead2"},
+            new() { Name = "Teamlead3"},
+            new() { Name = "Teamlead4"},
+        };
+        PreferencesStore<Teamlead, Junior> preferList = new(teamleads, juniors);
         TestAllContainsName(preferList, name);
     }
 }
