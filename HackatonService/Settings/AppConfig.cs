@@ -10,3 +10,8 @@ internal sealed class DataSourceSettings
     public required string JuniorsListPath { get; set; }
     public required string TeamleadsListPath { get; set; }
 }
+
+internal sealed class DatabaseSettings
+{
+    public required string PostgresConnection { get; set; }
+}
