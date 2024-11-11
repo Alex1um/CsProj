@@ -3,7 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting; 
 using Microsoft.Extensions.Configuration; 
 using HackatonService.Settings;
+using HackatonService.DB;
 using Npgsql;
+using Microsoft.EntityFrameworkCore;
 
 static class Program
 {
@@ -17,13 +19,14 @@ static class Program
                 services.AddTransient<ITeamBuildingStrategy, StableMarriageTeamBuildingStrategy>();
                 services.AddTransient<HRManager>();
                 services.AddTransient<HRDirector>();
-                services.AddDbContext<MyDbContext>(options =>
+                services.AddDbContextPool<HackatonDbContext>(options =>
                 {
                     options.UseNpgsql(hostContext.Configuration.GetConnectionString("PostgresConnection"));
                 });
 
                 services.AddOptions<HackatonSettings>().Bind(hostContext.Configuration.GetSection("Hackaton"));
                 services.AddOptions<DataSourceSettings>().Bind(hostContext.Configuration.GetSection("Sources"));
+                services.AddOptions<DataSourceSettings>().Bind(hostContext.Configuration.GetSection("Database"));
             })
             .Build();
         host.Run();

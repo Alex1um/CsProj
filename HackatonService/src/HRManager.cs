@@ -1,9 +1,12 @@
 namespace HackatonService;
 
+using HackatonService.DB;
 using HackatonService.Participants;
 
-public class HRManager(ITeamBuildingStrategy strategy) 
+public class HRManager(ITeamBuildingStrategy strategy, HackatonDbContext context) 
 {
+
+    private readonly HackatonDbContext _context = context;
 
     private readonly ITeamBuildingStrategy strategy = strategy;
 
@@ -14,6 +17,9 @@ public class HRManager(ITeamBuildingStrategy strategy)
         PreferencesStore<Junior, Teamlead> junLists
     )
     {
-        return strategy.BuildTeams(teamleads, juniors, teamleadLists, junLists);
+        var teams = strategy.BuildTeams(teamleads, juniors, teamleadLists, junLists);
+        _context.Teams.AddRange(teams);
+        _context.SaveChanges();
+        return teams;
     }
 }
