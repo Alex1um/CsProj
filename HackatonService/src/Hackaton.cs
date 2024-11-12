@@ -9,8 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 class Hackaton
 {
-    private int Id { get; set; } = 0;
-   
+    private int Id;
     private readonly List<Teamlead> Teamleads;
     private readonly List<Junior> Juniors;
     
@@ -22,19 +21,34 @@ class Hackaton
         Teamleads = CSVReader.Read<Teamlead>(sourcesSettings.Value.TeamleadsListPath);
         Juniors = CSVReader.Read<Junior>(sourcesSettings.Value.JuniorsListPath);
 
-        context.Teamleads.AddRange(Teamleads);
-        context.Juniors.AddRange(Juniors);
-        context.SaveChanges();
+        _context.Database.EnsureCreated();
+        foreach (var teamlead in Teamleads) {
+            if (!_context.Teamleads.Contains(teamlead)) {
+                _context.Teamleads.Add(teamlead);
+            }
+        }
+        foreach (var junior in Juniors) {
+            if (!_context.Juniors.Contains(junior)) {
+                _context.Juniors.Add(junior);
+            }
+        }
+        // _context.Teamleads.AddRange(Teamleads);
+        // _context.Juniors.AddRange(Juniors);
+        _context.SaveChanges();
     }
 
     public double Run(HRManager manager, HRDirector director) {
-        var junLists = new PreferencesStore<Junior, Teamlead>(Juniors, Teamleads);
-        _context.JuniorLists.Add(junLists.ToPreferencesStoreScheme(this));
-        var teamleadLists = new PreferencesStore<Teamlead, Junior>(Teamleads, Juniors);
-        _context.TeamleadLists.Add(teamleadLists.ToPreferencesStoreScheme(this));
+        var run = new HackatonRunScheme();
+        _context.Add(run);
         _context.SaveChanges();
-        var resultDict = manager.BuildTeams(Teamleads, Juniors, teamleadLists, junLists);
-        return director.CalculateHarmonicMean(teamleadLists, junLists, resultDict);
+        var junLists = new PreferencesStore<Junior, Teamlead>(Juniors, Teamleads);
+        _context.JuniorLists.AddRange(junLists.ToPreferencsScheme(run));
+        var teamleadLists = new PreferencesStore<Teamlead, Junior>(Teamleads, Juniors);
+        _context.TeamleadLists.AddRange(teamleadLists.ToPreferencsScheme(run));
+        _context.SaveChanges();
+        var resultDict = manager.BuildTeams(run.Id, Teamleads, Juniors, teamleadLists, junLists);
+        var harmonicMean = director.CalculateHarmonicMean(run.Id, teamleadLists, junLists, resultDict);
+        return harmonicMean;
     }
 
 }

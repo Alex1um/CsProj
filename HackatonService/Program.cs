@@ -21,7 +21,7 @@ static class Program
                 services.AddTransient<HRDirector>();
                 services.AddDbContextPool<HackatonDbContext>(options =>
                 {
-                    options.UseNpgsql(hostContext.Configuration.GetConnectionString("PostgresConnection"));
+                    options.UseNpgsql(hostContext.Configuration.GetSection("Database").GetSection("PostgresConnection").Value);
                 });
 
                 services.AddOptions<HackatonSettings>().Bind(hostContext.Configuration.GetSection("Hackaton"));

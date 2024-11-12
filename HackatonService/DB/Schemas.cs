@@ -1,76 +1,67 @@
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using HackatonService;
 using HackatonService.Participants;
+using Microsoft.EntityFrameworkCore;
 
 namespace HackatonService.DB;
 
-public class HarmonicMeanScheme {
-
-    [Key]
-    internal Hackaton Hackaton { get; set; }
-    public double mean { get; set; }
-}
-
-public class PreferenceScheme<T, V> where T : notnull where V : Participant {
-    [Key]
-    internal Hackaton Hackaton { get; set; }
-
-    public T Unit { get; set; }
-    public V Prefered { get; set; }
-}
-
-public class PreferencesStoreScheme<T, V> where T : notnull where V : Participant {
-    [Key]
-    internal Hackaton Hackaton { get; set; }
-
-    public ISet<T> Units { get; set; }
-    public ISet<V> Prefered { get; set; }
-
-    public static implicit operator PreferencesStore<T, V>(PreferencesStoreScheme<T, V> scheme) {
-        return new PreferencesStore<T, V>([.. scheme.Units], [.. scheme.Prefered]);
-    }
+[PrimaryKey(nameof(Id))]
+public class HackatonRunScheme {
+    public int Id { get; set; }
+    public double? mean { get; set; }
 
 }
 
-public class AssignmentScheme<T, V> where T : notnull where V : Participant {
-    [Key]
-    internal Hackaton Hackaton { get; set; }
-    public T Teamlead { get; set; }
-    public V Junior { get; set; }
+[PrimaryKey(nameof(HackatonRunId), nameof(UnitId))]
+public class PreferenceScheme<T, V> where T : notnull, Participant where V : Participant {
+    
+    [ForeignKey(nameof(HackatonRunScheme))]
+    public int HackatonRunId { get; set; }
+
+    [ForeignKey(nameof(T))]
+    public int UnitId { get; set; }
+    
+    [ForeignKey(nameof(V))]
+    public ICollection<int> Prefered { get; set; }
 }
 
+[PrimaryKey(nameof(HackatonRunId), nameof(TeamleadId), nameof(JuniorId))]
 public class TeamScheme<T, V> where T : notnull where V : Participant {
-    [Key]
-    internal Hackaton Hackaton { get; set; }
-    public T Teamlead { get; set; }
-    public V Junior { get; set; }
-}
 
-public class TeamSatisfactionScheme<T, V> where T : notnull where V : Participant {
-    [Key]
-    public TeamScheme<T, V> Team { get; set; }
-    public int Score { get; set; }
- }
+    [ForeignKey(nameof(HackatonRunScheme))]
+    public int HackatonRunId { get; set; }
+
+    [ForeignKey(nameof(T))]
+    public int TeamleadId { get; set; }
+    
+    [ForeignKey(nameof(V))]
+    public int JuniorId { get; set; }
+    
+    public double? Score { get; set; }
+}
 
 public static class SchemeConverters {
     
-    internal static AssignmentScheme<T, V> ToAssignmentScheme<T, V>(this Assignment<T, V> assignment, Hackaton hackaton)
-        where T : notnull where V : Participant
+    internal static PreferenceScheme<T, V>[] ToPreferencsScheme<T, V>(this PreferencesStore<T, V> assignmentStore, HackatonRunScheme hackaton)
+        where T : notnull, Participant where V : Participant
     {
-        return new AssignmentScheme<T, V> {
-            Hackaton = hackaton,
-            Teamlead = assignment.Teamlead,
-            Junior = assignment.Junior
-        };
+        return assignmentStore.Select(assignment => new PreferenceScheme<T, V> {
+            HackatonRunId = hackaton.Id,
+            UnitId = assignment.Key.Id,
+            Prefered = new List<int>(assignment.Value.Select(p => p.Id)), // assignment.Value,
+        }).ToArray();
     }
 
-    internal static TeamScheme<T, V> ToTeamScheme<T, V>(this Assignment<T, V> assignment, Hackaton hackaton)
-        where T : notnull where V : Participant
+    internal static TeamScheme<K, V>[] ToTeamsScheme<K, V>(this AssignmentStore<K, V> assignmentStore, int runId)
+        where K : notnull, Participant where V: notnull, Participant
     {
-        return new TeamScheme<T, V> {
-            Hackaton = hackaton,
-            Teamlead = assignment.Teamlead,
-            Junior = assignment.Junior
-        };
+        return assignmentStore.Select(assignment => new TeamScheme<K, V> {
+            HackatonRunId = runId,
+            TeamleadId = assignment.Key.Id,
+            JuniorId = assignment.Value.Id,
+        }).ToArray();
     }
+    
 }
