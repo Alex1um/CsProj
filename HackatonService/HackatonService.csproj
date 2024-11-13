@@ -13,8 +13,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.5" />
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-        <_Parameter1>HackatonService.Tests</_Parameter1>
-    </AssemblyAttribute>
   </ItemGroup>
+
 </Project>

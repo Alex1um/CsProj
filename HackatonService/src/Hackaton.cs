@@ -4,32 +4,55 @@ using HackatonService.Participants;
 using HackatonService.Settings;
 using HackatonService.DataIO;
 using Microsoft.Extensions.Options;
+using HackatonService.DB;
+using Microsoft.EntityFrameworkCore;
 
 class Hackaton
 {
+    private int Id;
     private readonly List<Teamlead> Teamleads;
     private readonly List<Junior> Juniors;
+    
+    private readonly HackatonDbContext _context;
 
-    private readonly PreferencesStore<Junior, Teamlead> juniorsTeamleads;
-    private readonly PreferencesStore<Teamlead, Junior> teamleadsJuniors;
+    public Hackaton(IOptions<DataSourceSettings> sourcesSettings, HackatonDbContext context) { 
+        _context = context;
 
-    public Hackaton(IOptions<DataSourceSettings> sourcesSettings) {
         Teamleads = CSVReader.Read<Teamlead>(sourcesSettings.Value.TeamleadsListPath);
         Juniors = CSVReader.Read<Junior>(sourcesSettings.Value.JuniorsListPath);
-        juniorsTeamleads = new PreferencesStore<Junior, Teamlead>(Juniors, Teamleads);
-        teamleadsJuniors = new PreferencesStore<Teamlead, Junior>(Teamleads, Juniors);
-    }
 
-    public Hackaton(List<Teamlead> teamleads, List<Junior> juniors, PreferencesStore<Junior, Teamlead> juniorsTeamleads, PreferencesStore<Teamlead, Junior> teamleadsJuniors) {
-        Teamleads = teamleads;
-        Juniors = juniors;
-        this.juniorsTeamleads = juniorsTeamleads;
-        this.teamleadsJuniors = teamleadsJuniors;
+        var hackaton = new HackatonScheme();
+        _context.Hachatons.Add(hackaton);
+
+        _context.Database.EnsureCreated();
+        foreach (var teamlead in Teamleads) {
+            if (!_context.Teamleads.Contains(teamlead)) {
+                _context.Teamleads.Add(teamlead);
+            }
+        }
+        foreach (var junior in Juniors) {
+            if (!_context.Juniors.Contains(junior)) {
+                _context.Juniors.Add(junior);
+            }
+        }
+        // _context.Teamleads.AddRange(Teamleads);
+        // _context.Juniors.AddRange(Juniors);
+        _context.SaveChanges();
+        Id = hackaton.Id;
     }
 
     public double Run(HRManager manager, HRDirector director) {
-        var resultDict = manager.BuildTeams(Teamleads, Juniors, teamleadsJuniors, juniorsTeamleads);
-        return director.CalculateHarmonicMean(teamleadsJuniors, juniorsTeamleads, resultDict);
+        var run = new HackatonRunScheme();
+        _context.Add(run);
+        _context.SaveChanges();
+        var junLists = new PreferencesStore<Junior, Teamlead>(Juniors, Teamleads);
+        _context.JuniorLists.AddRange(junLists.ToPreferencsScheme(run));
+        var teamleadLists = new PreferencesStore<Teamlead, Junior>(Teamleads, Juniors);
+        _context.TeamleadLists.AddRange(teamleadLists.ToPreferencsScheme(run));
+        _context.SaveChanges();
+        var resultDict = manager.BuildTeams(run.Id, Teamleads, Juniors, teamleadLists, junLists);
+        var harmonicMean = director.CalculateHarmonicMean(run.Id, teamleadLists, junLists, resultDict);
+        return harmonicMean;
     }
 
 }
