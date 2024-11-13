@@ -23,12 +23,12 @@ public class HackatonRunScheme
 
 }
 
-[PrimaryKey(nameof(HackatonRunId), nameof(UnitId))]
+[PrimaryKey(nameof(HackatonId), nameof(UnitId))]
 public class PreferenceScheme<T, V> where T : notnull, Participant where V : Participant
 {
 
-    [ForeignKey(nameof(HackatonRunScheme))]
-    public int HackatonRunId { get; set; }
+    [ForeignKey(nameof(HackatonScheme))]
+    public int HackatonId { get; set; }
 
     [ForeignKey(nameof(T))]
     public int UnitId { get; set; }
@@ -56,12 +56,12 @@ public class TeamScheme<T, V> where T : notnull where V : Participant
 public static class SchemeConverters
 {
 
-    internal static PreferenceScheme<T, V>[] ToPreferencsScheme<T, V>(this PreferencesStore<T, V> assignmentStore, HackatonRunScheme hackaton)
+    internal static PreferenceScheme<T, V>[] ToPreferencsScheme<T, V>(this PreferencesStore<T, V> assignmentStore, int hackatonId)
         where T : notnull, Participant where V : Participant
     {
         return assignmentStore.Select(assignment => new PreferenceScheme<T, V>
         {
-            HackatonRunId = hackaton.Id,
+            HackatonId = hackatonId,
             UnitId = assignment.Key.Id,
             Prefered = new List<int>(assignment.Value.Select(p => p.Id)), // assignment.Value,
         }).ToArray();
