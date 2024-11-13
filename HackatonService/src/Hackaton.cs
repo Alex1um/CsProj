@@ -21,6 +21,9 @@ class Hackaton
         Teamleads = CSVReader.Read<Teamlead>(sourcesSettings.Value.TeamleadsListPath);
         Juniors = CSVReader.Read<Junior>(sourcesSettings.Value.JuniorsListPath);
 
+        var hackaton = new HackatonScheme();
+        _context.Hachatons.Add(hackaton);
+
         _context.Database.EnsureCreated();
         foreach (var teamlead in Teamleads) {
             if (!_context.Teamleads.Contains(teamlead)) {
@@ -35,6 +38,7 @@ class Hackaton
         // _context.Teamleads.AddRange(Teamleads);
         // _context.Juniors.AddRange(Juniors);
         _context.SaveChanges();
+        Id = hackaton.Id;
     }
 
     public double Run(HRManager manager, HRDirector director) {
