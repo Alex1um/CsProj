@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using HackatonService.Participants;
 using HackatonService;
+using System.Reflection.Metadata;
 namespace HackatonService.DB;
 
-public class HackatonDbContext(DbContextOptions<HackatonDbContext> options) : DbContext(options) {
+public class HackatonDbContext(DbContextOptions<HackatonDbContext> options) : DbContext(options)
+{
     internal DbSet<HackatonScheme> Hachatons { get; set; }
     public DbSet<HackatonRunScheme> HachatonRuns { get; set; }
     public DbSet<Junior> Juniors { get; set; }

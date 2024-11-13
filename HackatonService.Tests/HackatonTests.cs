@@ -2,12 +2,16 @@ namespace HackatonService.Tests;
 using HackatonService.Extensions;
 using HackatonService;
 using HackatonService.Participants;
+using HackatonService.DB;
 using HackatonService.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
 
 public class HackatonTests
 {
+
     [Fact]
     public void TestHackatonRun()
     {
@@ -42,9 +46,17 @@ public class HackatonTests
             [teamlead2] = [jun2, jun1]
         });
 
-        var hackaton = new Hackaton([teamlead1, teamlead2], [jun1, jun2], juniorsTeamleads, teamleadsJuniors);
+        var _connection = new SqliteConnection("Data Source=:memory:");
+        _connection.Open();
+        var _contextOptions = new DbContextOptionsBuilder<HackatonDbContext>()
+            .UseSqlite(_connection)
+            .Options;
+        
+        using var context = new HackatonDbContext(_contextOptions);
 
-        var result = hackaton.Run(new HRManager(new StableMarriageTeamBuildingStrategy()), new HRDirector());
+        var hackaton = new Hackaton([teamlead1, teamlead2], [jun1, jun2], juniorsTeamleads, teamleadsJuniors, context);
+
+        var result = hackaton.Run(new HRManager(new StableMarriageTeamBuildingStrategy(), context), new HRDirector(context));
 
         Assert.Equal(4, result);
     }
