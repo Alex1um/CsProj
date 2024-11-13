@@ -1,39 +1,32 @@
 namespace HackatonService.Tests;
-using HackatonService.Extensions;
 using HackatonService;
 using HackatonService.Participants;
-using HackatonService.DB;
-using HackatonService.Settings;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.Sqlite;
-using Moq;
 
-public class HackatonTests
+public class HackatonDBTests(DatabaseSqliteFixture fixture) : IClassFixture<DatabaseSqliteFixture>
 {
+    readonly DatabaseSqliteFixture fixture = fixture;
 
     [Fact]
-    public void TestHackatonRun()
+    public void HackatonDBMeanWriteTest()
     {
         Junior jun1 = new()
         {
-            Id = 0,
+            // Id = 0,
             Name = "jun1"
         };
         Junior jun2 = new()
         {
-            Id = 0,
+            // Id = 1,
             Name = "jun2"
         };
         Teamlead teamlead1 = new()
         {
-            Id = 0,
+            // Id = 0,
             Name = "teamlead1"
         };
         Teamlead teamlead2 = new()
         {
-            Id = 0,
+            // Id = 1,
             Name = "teamlead2"
         };
         PreferencesStore<Junior, Teamlead> juniorsTeamleads = new(new Dictionary<Junior, List<Teamlead>>()
@@ -46,14 +39,13 @@ public class HackatonTests
             [teamlead1] = [jun1, jun2],
             [teamlead2] = [jun2, jun1]
         });
-
-        var dbMock = new Mock<HackatonDbContext>();
-        var context = dbMock.Object;
+        var context = fixture.context;
 
         var hackaton = new Hackaton([teamlead1, teamlead2], [jun1, jun2], juniorsTeamleads, teamleadsJuniors, context);
 
         var result = hackaton.Run(new HRManager(new StableMarriageTeamBuildingStrategy(), context), new HRDirector(context));
 
-        Assert.Equal(4, result);
+        var run = context.HachatonRuns.Single(e => e.HackatonId == hackaton.Id);
+        Assert.Equal(4, run.mean);
     }
 }

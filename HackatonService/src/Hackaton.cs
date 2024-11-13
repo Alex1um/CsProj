@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 class Hackaton
 {
-    private int Id;
+    public int Id;
     private readonly List<Teamlead> Teamleads;
     private readonly List<Junior> Juniors;
 
