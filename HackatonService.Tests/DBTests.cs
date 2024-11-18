@@ -48,8 +48,11 @@ public class HackatonDBTests(DatabaseSqliteFixture fixture) : IClassFixture<Data
         Assert.Equivalent(juniorsTeamleads.ToPreferencsScheme(hackaton.Id), bdJuniorLists);
         var bdTeamleadLists = context.TeamleadLists.ToList();
         Assert.Equivalent(teamleadsJuniors.ToPreferencsScheme(hackaton.Id), bdTeamleadLists);
-
+        
         var result = hackaton.Run(new HRManager(new StableMarriageTeamBuildingStrategy()), new HRDirector());
+        
+        var teams = context.Teams.ToList();
+        Assert.NotEmpty(teams);
 
         var run = context.HachatonRuns.Single(e => e.HackatonId == hackaton.Id);
         Assert.Equal(4, run.mean);
