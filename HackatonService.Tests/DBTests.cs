@@ -1,5 +1,6 @@
 namespace HackatonService.Tests;
 using HackatonService;
+using HackatonService.DB;
 using HackatonService.Participants;
 
 public class HackatonDBTests(DatabaseSqliteFixture fixture) : IClassFixture<DatabaseSqliteFixture>
@@ -42,6 +43,11 @@ public class HackatonDBTests(DatabaseSqliteFixture fixture) : IClassFixture<Data
         var context = fixture.context;
 
         var hackaton = new Hackaton([teamlead1, teamlead2], [jun1, jun2], juniorsTeamleads, teamleadsJuniors, context);
+
+        var bdJuniorLists = context.JuniorLists.ToList();
+        Assert.Equivalent(juniorsTeamleads.ToPreferencsScheme(hackaton.Id), bdJuniorLists);
+        var bdTeamleadLists = context.TeamleadLists.ToList();
+        Assert.Equivalent(teamleadsJuniors.ToPreferencsScheme(hackaton.Id), bdTeamleadLists);
 
         var result = hackaton.Run(new HRManager(new StableMarriageTeamBuildingStrategy()), new HRDirector());
 
