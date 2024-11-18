@@ -80,8 +80,19 @@ class Hackaton
         };
         _context.Add(run);
         _context.SaveChanges();
-        var resultDict = manager.BuildTeams(run.Id, Teamleads, Juniors, teamleadsJuniors, juniorsTeamleads);
-        var harmonicMean = director.CalculateHarmonicMean(run.Id, teamleadsJuniors, juniorsTeamleads, resultDict);
+        var teams = manager.BuildTeams(Teamleads, Juniors, teamleadsJuniors, juniorsTeamleads);
+        _context.Teams.AddRange(teams.ToTeamsScheme(run.Id));
+        _context.SaveChanges();
+        var scores = director.CalcSatisfactionIndex(teamleadsJuniors, juniorsTeamleads, teams);
+        foreach (var (assignment, score) in scores)
+        {
+            var team = _context.Teams.Single(team => team.HackatonRunId == run.Id && team.TeamleadId == assignment.Teamlead.Id && team.JuniorId == assignment.Junior.Id);
+            team.Score = score;
+        }
+        _context.SaveChanges();
+        var harmonicMean = director.GetHarmonicMean(scores);
+        _context.HachatonRuns.Single(srun => srun.Id == run.Id).mean = harmonicMean;
+        _context.SaveChanges();
         return harmonicMean;
     }
 

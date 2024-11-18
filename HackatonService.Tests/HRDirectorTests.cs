@@ -2,9 +2,6 @@ namespace HackatonService.Tests;
 using HackatonService.Extensions;
 using HackatonService;
 using HackatonService.Participants;
-using HackatonService.DB;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 
 public class HRDirectorTests
 {
@@ -48,12 +45,9 @@ public class HRDirectorTests
             [teamlead1] = jun1,
             [teamlead2] = jun2
         });
-        var dbMock = new Mock<HackatonDbContext>();
-        var context = dbMock.Object;
+        HRDirector HRDirectorInstance = new();
 
-        HRDirector HRDirectorInstance = new(context);
-
-        Dictionary<Assignment<Teamlead, Junior>, int> scores = HRDirectorInstance.CalcSatisfactionIndex(0, teamleadsJuniors, juniorsTeamleads, buildedTeams);
+        Dictionary<Assignment<Teamlead, Junior>, int> scores = HRDirectorInstance.CalcSatisfactionIndex(teamleadsJuniors, juniorsTeamleads, buildedTeams);
         
         double mean = scores.Values.ToList().GetHarmonicMean();
         foreach (var (key, value) in scores)

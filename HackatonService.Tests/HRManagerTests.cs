@@ -1,9 +1,6 @@
 namespace HackatonService.Tests;
 using HackatonService;
 using HackatonService.Participants;
-using HackatonService.DB;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 
 public class HRManagerTests
 {
@@ -31,12 +28,9 @@ public class HRManagerTests
         PreferencesStore<Teamlead, Junior> teamleadsJuniors = new(teamleads, juniors);
 
         ITeamBuildingStrategy randomStrategy = new RandomTeamBuildingStrategy();
-        
-        var dbMock = new Mock<HackatonDbContext>();
-        var context = dbMock.Object;
-        HRManager randomManager = new(randomStrategy, context);
+        HRManager randomManager = new(randomStrategy);
 
-        AssignmentStore<Teamlead, Junior> randomTeams = randomManager.BuildTeams(0, teamleads, juniors, teamleadsJuniors, juniorsTeamleads);
+        AssignmentStore<Teamlead, Junior> randomTeams = randomManager.BuildTeams(teamleads, juniors, teamleadsJuniors, juniorsTeamleads);
         Assert.Equal(randomTeams.Count, teamleads.Count);
         Assert.Equal(randomTeams.Count, juniors.Count);
     }
@@ -59,11 +53,9 @@ public class HRManagerTests
         PreferencesStore<Teamlead, Junior> teamleadsJuniors = new(teamleads, juniors);
 
         ITeamBuildingStrategy optimalStrategy = new StableMarriageTeamBuildingStrategy();
-        var dbMock = new Mock<HackatonDbContext>();
-        var context = dbMock.Object;
-        HRManager optimalManager = new(optimalStrategy, context);
+        HRManager optimalManager = new(optimalStrategy);
 
-        AssignmentStore<Teamlead, Junior> optimalTeams = optimalManager.BuildTeams(0, teamleads, juniors, teamleadsJuniors, juniorsTeamleads);
+        AssignmentStore<Teamlead, Junior> optimalTeams = optimalManager.BuildTeams(teamleads, juniors, teamleadsJuniors, juniorsTeamleads);
         Assert.Equal(optimalTeams.Count, teamleads.Count);
         Assert.Equal(optimalTeams.Count, juniors.Count);
     }
@@ -114,11 +106,9 @@ public class HRManagerTests
             [teamlead2] = [jun2, jun1]
         });
         ITeamBuildingStrategy optimalStrategy = new StableMarriageTeamBuildingStrategy();
-        var dbMock = new Mock<HackatonDbContext>();
-        var context = dbMock.Object;
-        HRManager optimalManager = new(optimalStrategy, context);
+        HRManager optimalManager = new(optimalStrategy);
         
-        AssignmentStore<Teamlead, Junior> optimalTeams = optimalManager.BuildTeams(0, teamleads, juniors, teamleadsJuniors, juniorsTeamleads);
+        AssignmentStore<Teamlead, Junior> optimalTeams = optimalManager.BuildTeams(teamleads, juniors, teamleadsJuniors, juniorsTeamleads);
 
         Assert.Equal(buildedTeams, optimalTeams);
     }

@@ -1,17 +1,10 @@
 namespace HackatonService.Tests;
-using HackatonService.Extensions;
 using HackatonService;
 using HackatonService.Participants;
-using HackatonService.DB;
-using HackatonService.Settings;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.Sqlite;
-using Moq;
 
-public class HackatonTests
+public class HackatonTests(DatabaseSqliteFixture fixture) : IClassFixture<DatabaseSqliteFixture>
 {
+    readonly DatabaseSqliteFixture fixture = fixture;
 
     [Fact]
     public void TestHackatonRun()
@@ -46,13 +39,11 @@ public class HackatonTests
             [teamlead1] = [jun1, jun2],
             [teamlead2] = [jun2, jun1]
         });
-
-        var dbMock = new Mock<HackatonDbContext>();
-        var context = dbMock.Object;
+        var context = fixture.context;
 
         var hackaton = new Hackaton([teamlead1, teamlead2], [jun1, jun2], juniorsTeamleads, teamleadsJuniors, context);
 
-        var result = hackaton.Run(new HRManager(new StableMarriageTeamBuildingStrategy(), context), new HRDirector(context));
+        var result = hackaton.Run(new HRManager(new StableMarriageTeamBuildingStrategy()), new HRDirector());
 
         Assert.Equal(4, result);
     }
