@@ -1,12 +1,15 @@
 namespace HackatonService;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using HackatonService.Participants;
+using System.Linq;
 
 
-public record Assignment<K, V>(
-    K Teamlead,
-    V Junior
-);
+public class Assignment<K, V> {
+    public K Teamlead { get; set; }
+    public V Junior { get; set; }
+}
 
 public class AssignmentStore<K, V> : ReadOnlyDictionary<K, V> where K : notnull, Participant where V: notnull, Participant {
 
@@ -24,9 +27,21 @@ public class AssignmentStore<K, V> : ReadOnlyDictionary<K, V> where K : notnull,
             var juniorIndex = kLists[teamlead].IndexOf(junior);
             var juniorScore = kLists[teamlead].Count - juniorIndex;
             if (teamlead is not null && junior is not null) {
-                resultDict[new Assignment<K, V>(teamlead, junior)] = teamLeadScore + juniorScore;
+                resultDict[new Assignment<K, V> {Teamlead = teamlead, Junior = junior}] = teamLeadScore + juniorScore;
             }
         }
         return resultDict;
+    }
+
+    public static implicit operator Assignment<K, V>[](AssignmentStore<K, V> store) {
+        var result = new Assignment<K, V>[store.Count];
+        
+        int index = 0;
+        foreach (var (key, value) in store) {
+            result[index] = new Assignment<K, V> {Teamlead = key, Junior = value};
+            index += 1;
+        }
+
+        return result;
     }
 }

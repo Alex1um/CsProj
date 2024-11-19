@@ -1,10 +1,12 @@
 namespace HackatonService;
 
+using HackatonService.DB;
 using HackatonService.Extensions;
 using HackatonService.Participants;
 
-public class HRDirector
+public class HRDirector()
 {
+    
 
     public Dictionary<Assignment<Teamlead, Junior>, int> CalcSatisfactionIndex(
         PreferencesStore<Teamlead, Junior> teamleadLists,
@@ -17,7 +19,8 @@ public class HRDirector
 
     public double GetHarmonicMean(Dictionary<Assignment<Teamlead, Junior>, int> resultDict)
     {
-        return resultDict.Values.ToList().GetHarmonicMean();
+        var mean = resultDict.Values.ToList().GetHarmonicMean();
+        return mean;
     }
     
     public double CalculateHarmonicMean(

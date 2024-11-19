@@ -1,7 +1,12 @@
 ﻿namespace HackatonService;
 using Microsoft.Extensions.DependencyInjection; 
 using Microsoft.Extensions.Hosting; 
+using Microsoft.Extensions.Configuration; 
 using HackatonService.Settings;
+using HackatonService.DB;
+using HackatonService.TUI;
+using Npgsql;
+using Microsoft.EntityFrameworkCore;
 
 static class Program
 {
@@ -11,13 +16,19 @@ static class Program
             .ConfigureServices((hostContext, services) => {
                 services.AddHostedService<HackatonWorker>();
                 services.AddTransient<Hackaton>();
-                services.AddTransient<ITeamBuildingStrategy, RandomTeamBuildingStrategy>();
                 services.AddTransient<ITeamBuildingStrategy, StableMarriageTeamBuildingStrategy>();
+                services.AddTransient<ITeamBuildingStrategy, RandomTeamBuildingStrategy>();
                 services.AddTransient<HRManager>();
                 services.AddTransient<HRDirector>();
+                services.AddTransient<TerminalUserInterface>();
+                services.AddDbContextPool<HackatonDbContext>(options =>
+                {
+                    options.UseNpgsql(hostContext.Configuration.GetSection("Database").GetSection("PostgresConnection").Value);
+                });
 
                 services.AddOptions<HackatonSettings>().Bind(hostContext.Configuration.GetSection("Hackaton"));
                 services.AddOptions<DataSourceSettings>().Bind(hostContext.Configuration.GetSection("Sources"));
+                services.AddOptions<DataSourceSettings>().Bind(hostContext.Configuration.GetSection("Database"));
             })
             .Build();
         host.Run();

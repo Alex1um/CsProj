@@ -1,8 +1,9 @@
 namespace HackatonService;
 
+using HackatonService.DB;
 using HackatonService.Participants;
 
-public class HRManager(ITeamBuildingStrategy strategy) 
+public class HRManager(ITeamBuildingStrategy strategy)
 {
 
     private readonly ITeamBuildingStrategy strategy = strategy;
