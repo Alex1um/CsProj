@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackatonService", "Hackaton
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackatonService.Tests", "HackatonService.Tests\HackatonService.Tests.csproj", "{1EE7F7A8-71B8-4961-84FA-B7FD44854EFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackatonBase", "HackatonBase\HackatonBase.csproj", "{BEE1DF45-AFF1-4A84-91B8-780AC428C08B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackatonHRDirectorService", "HackatonHRDirectorService\HackatonHRDirectorService.csproj", "{A1E4A9AF-0658-4AFF-8491-BB45139EF2EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackatonHRManagerService", "HackatonHRManagerService\HackatonHRManagerService.csproj", "{71EE691F-3C19-4052-B1F0-8272547E6D92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackatonParticipantService", "HackatonParticipantService\HackatonParticipantService.csproj", "{9374E3A0-8AF5-4199-B51E-39C194B8BB8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +32,21 @@ Global
 		{1EE7F7A8-71B8-4961-84FA-B7FD44854EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EE7F7A8-71B8-4961-84FA-B7FD44854EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EE7F7A8-71B8-4961-84FA-B7FD44854EFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEE1DF45-AFF1-4A84-91B8-780AC428C08B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEE1DF45-AFF1-4A84-91B8-780AC428C08B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEE1DF45-AFF1-4A84-91B8-780AC428C08B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEE1DF45-AFF1-4A84-91B8-780AC428C08B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1E4A9AF-0658-4AFF-8491-BB45139EF2EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1E4A9AF-0658-4AFF-8491-BB45139EF2EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1E4A9AF-0658-4AFF-8491-BB45139EF2EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1E4A9AF-0658-4AFF-8491-BB45139EF2EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71EE691F-3C19-4052-B1F0-8272547E6D92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71EE691F-3C19-4052-B1F0-8272547E6D92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71EE691F-3C19-4052-B1F0-8272547E6D92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71EE691F-3C19-4052-B1F0-8272547E6D92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9374E3A0-8AF5-4199-B51E-39C194B8BB8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9374E3A0-8AF5-4199-B51E-39C194B8BB8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9374E3A0-8AF5-4199-B51E-39C194B8BB8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9374E3A0-8AF5-4199-B51E-39C194B8BB8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

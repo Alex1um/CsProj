@@ -1,8 +1,8 @@
-namespace HackatonService;
+namespace HackatonBase;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using HackatonService.Participants;
+using HackatonBase.Participants;
 using System.Linq;
 
 

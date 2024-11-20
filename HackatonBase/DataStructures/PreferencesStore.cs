@@ -1,7 +1,7 @@
-namespace HackatonService;
+namespace HackatonBase;
 
 using System.Collections.ObjectModel;
-using HackatonService.Participants;
+using HackatonBase.Participants;
 
 public class PreferencesStore<T, V> : ReadOnlyDictionary<T, List<V>> where T : notnull where V : Participant
 {

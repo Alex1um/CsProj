@@ -1,5 +1,5 @@
-namespace HackatonService.Participants;
-using HackatonService.Extensions;
+namespace HackatonBase.Participants;
+using HackatonBase.Extensions;
 
 abstract public class Participant
 {

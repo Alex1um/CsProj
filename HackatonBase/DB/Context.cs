@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using HackatonService.Participants;
-using HackatonService;
+using HackatonBase.Participants;
+using HackatonBase;
 using System.Reflection.Metadata;
 namespace HackatonService.DB;
 

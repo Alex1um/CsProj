@@ -1,6 +1,6 @@
-namespace HackatonService.DataIO;
+namespace HackatonBase.DataIO;
 
-using HackatonService.Participants;
+using HackatonBase.Participants;
 
 public static class CSVReader
 {

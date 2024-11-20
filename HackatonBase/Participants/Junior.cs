@@ -1,7 +1,7 @@
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
 
-namespace HackatonService.Participants;
+namespace HackatonBase.Participants;
 
 [method: SetsRequiredMembers]
 public class Junior() : Participant

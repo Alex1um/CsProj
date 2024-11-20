@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace HackatonService.Participants;
+namespace HackatonBase.Participants;
 [method: SetsRequiredMembers]
 public class Teamlead() : Participant
 {

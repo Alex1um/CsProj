@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  hackaton-participant-service:
+    image: hackatonparticipantservice:latest
+    build:
+      context: .
+      dockerfile: HackatonParticipantService/Dockerfile
+    ports:
+      - "8080:80"
+    # environment:
+      # - URL=http://host.docker.internal:8080
+      # - ASPNETCORE_ENVIRONMENT=Development
+      # - HOSTNAME=host.docker.internal
+    volumes:
+      - ./data:/app/data
+

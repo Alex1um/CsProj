@@ -1,8 +1,8 @@
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using HackatonService;
-using HackatonService.Participants;
+using HackatonBase;
+using HackatonBase.Participants;
 using Microsoft.EntityFrameworkCore;
 
 namespace HackatonService.DB;

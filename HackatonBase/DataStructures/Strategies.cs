@@ -1,7 +1,7 @@
-namespace HackatonService;
+namespace HackatonBase;
 
-using HackatonService.Extensions;
-using HackatonService.Participants;
+using HackatonBase.Extensions;
+using HackatonBase.Participants;
 
 public abstract class ITeamBuildingStrategy
 {
