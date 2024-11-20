@@ -2,6 +2,9 @@ namespace HackatonParticipantService.Settings;
 using Docker.DotNet;
 using Docker.DotNet.Models;
 using Microsoft.Extensions.Hosting;
+using HackatonBase.DataIO;
+using HackatonBase.Participants;
+
 
 public class ParticipantConfiguration : IHostedService
 {
@@ -9,7 +12,7 @@ public class ParticipantConfiguration : IHostedService
     public string? Name { get; set; }
 
     private string? Hostname;
-
+    private string? ParticipantType;
     private bool IsSetupNeeded = true;
 
     public ParticipantConfiguration(IConfiguration configuration)
@@ -22,23 +25,49 @@ public class ParticipantConfiguration : IHostedService
             Id = configuration.GetValue<int>("Id");
             IsSetupNeeded = false;
         }
-
+        ParticipantType = configuration.GetValue<string>("PARTICIPANT") ?? "junior";
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        if (!IsSetupNeeded) 
+        if (!IsSetupNeeded)
         {
             return;
         }
-        Console.WriteLine("Setup begin");
-        // DockerClient client = new DockerClientConfiguration(
-        //     new Uri("unix:///var/run/docker.sock"))
-        //     .CreateClient();
-        // IList<ContainerListResponse> containers = await client.Containers.ListContainersAsync(
-        //     new ContainersListParameters(){
-        //         Limit = 10,
-        //     });
+        DockerClient client = new DockerClientConfiguration(
+            new Uri("unix://var/run/docker.sock"))
+            .CreateClient();
+        int containerIndex = int.Parse(
+            (
+                await client
+                .Containers
+                .ListContainersAsync(
+                    new ContainersListParameters()
+                    {
+                        All = true
+                    })
+            )
+            .First(c => c.ID[..12] == Hostname[..12])
+            .Names
+            .First()
+            .Split("-")
+            .Last()
+        );
+        if (ParticipantType == "junior")
+        {
+            var list = CSVReader.Read<Junior>("Juniors5.csv");
+            var teamlead = list.First(t => t.Id == containerIndex);
+            Name = teamlead.Name;
+            Id = teamlead.Id;
+        }
+        else if (ParticipantType == "teamlead")
+        {
+            var list = CSVReader.Read<Teamlead>("Teamleads5.csv");
+            var teamlead = list.First(t => t.Id == containerIndex);
+            Name = teamlead.Name;
+            Id = teamlead.Id;
+        }
+        Console.WriteLine($"{Id} {Name}");
         return;
     }
 

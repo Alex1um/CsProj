@@ -21,4 +21,7 @@ RUN dotnet publish "HackatonParticipantService.csproj" -c Release -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY "CSHARP_2024_NSU/Juniors5.csv" "/app/"
+COPY "CSHARP_2024_NSU/Teamleads5.csv" "/app/"
 ENTRYPOINT ["dotnet", "HackatonParticipantService.dll"]
+

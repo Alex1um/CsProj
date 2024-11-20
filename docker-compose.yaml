@@ -1,17 +1,33 @@
 version: '3.4'
 
 services:
-  hackaton-participant-service:
+  hackaton-participant-teamleads-service:
     image: hackatonparticipantservice:latest
     build:
       context: .
       dockerfile: HackatonParticipantService/Dockerfile
-    ports:
-      - "8080:80"
-    # environment:
+    # ports:
+      # - "8080:80"
+    environment:
+      - PARTICIPANT=teamlead
       # - URL=http://host.docker.internal:8080
       # - ASPNETCORE_ENVIRONMENT=Development
       # - HOSTNAME=host.docker.internal
     volumes:
       - ./data:/app/data
-
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      replicas: 2
+  
+  hackaton-participant-juniors-service:
+    image: hackatonparticipantservice:latest
+    build:
+      context: .
+      dockerfile: HackatonParticipantService/Dockerfile
+    environment:
+      - PARTICIPANT=junior
+    volumes:
+      - ./data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      replicas: 2
