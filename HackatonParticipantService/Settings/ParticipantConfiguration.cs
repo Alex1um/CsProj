@@ -11,9 +11,12 @@ public class ParticipantConfiguration : IHostedService
     public int? Id { get; set; }
     public string? Name { get; set; }
 
+    public Uri? HRManagerURL;
+
     private string? Hostname;
     private string? ParticipantType;
     private bool IsSetupNeeded = true;
+    
 
     public ParticipantConfiguration(IConfiguration configuration)
     {

@@ -6,13 +6,9 @@ services:
     build:
       context: .
       dockerfile: HackatonParticipantService/Dockerfile
-    # ports:
-      # - "8080:80"
     environment:
       - PARTICIPANT=teamlead
-      # - URL=http://host.docker.internal:8080
-      # - ASPNETCORE_ENVIRONMENT=Development
-      # - HOSTNAME=host.docker.internal
+      - HRMANAGER_URL=http://hackaton-hr-manager-service:80
     volumes:
       - ./data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
@@ -31,3 +27,23 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
       replicas: 2
+  
+  hackaton-hr-manager-service:
+    image: hackatonhrmanagerservice:latest
+    build:
+      context: .
+      dockerfile: HackatonHRManagerService/Dockerfile
+    volumes:
+      - ./data:/app/data
+    deploy:
+      replicas: 1
+  
+  hackaton-hr-director-service:
+    image: hackatonhrdirectorservice:latest
+    build:
+      context: .
+      dockerfile: HackatonHRDirectorService/Dockerfile
+    volumes:
+      - ./data:/app/data
+    deploy:
+      replicas: 1
