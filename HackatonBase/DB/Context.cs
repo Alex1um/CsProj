@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using HackatonBase.Participants;
 using HackatonBase;
 using System.Reflection.Metadata;
-namespace HackatonService.DB;
+namespace HackatonBase.DB;
 
 public class HackatonDbContext(DbContextOptions<HackatonDbContext> options) : DbContext(options)
 {

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using HackatonBase.Models;
 using HackatonBase.Participants;
 using HackatonBase.Extensions;
+using Docker.DotNet.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +21,12 @@ app.MapGet("/", (ParticipantConfiguration config) => config.Name);
 
 app.MapGet("/hackaton", async (ParticipantConfiguration config, HackatonAnnouncement<Participant> participants) => {
     var shuffled_participants = participants.participants.GetShuffled();
-    var request = HttpClient.PostAsync(config.HRManagerURL + "/hackaton");
+    // var content = 
+    using HttpClient client = new()
+        {
+            BaseAddress = config.HRManagerURL
+        };
+    var request = await client.PostAsJsonAsync("/hackaton", shuffled_participants);
     return "Ok";
 });
 

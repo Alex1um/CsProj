@@ -1,4 +1,4 @@
-namespace HackatonBase;
+namespace HackatonBase.Strategies;
 
 using HackatonBase.Extensions;
 using HackatonBase.Participants;

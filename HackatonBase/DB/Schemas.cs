@@ -5,7 +5,7 @@ using HackatonBase;
 using HackatonBase.Participants;
 using Microsoft.EntityFrameworkCore;
 
-namespace HackatonService.DB;
+namespace HackatonBase.DB;
 
 public class HackatonScheme
 {
