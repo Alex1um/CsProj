@@ -11,9 +11,11 @@ builder.Configuration.AddCommandLine(args);
 builder.Configuration.AddEnvironmentVariables();
 
 // builder.Services.Configure<ParticipantConfiguration>(builder.Configuration);
-builder.Services.AddHostedService<ParticipantConfiguration>();
+builder.Services.AddSingleton<ParticipantConfiguration>();
 
 var app = builder.Build();
+
+await app.Services.GetRequiredService<ParticipantConfiguration>().InitAsync();
 
 app.MapGet("/", (ParticipantConfiguration config) => config.Info.Name);
 

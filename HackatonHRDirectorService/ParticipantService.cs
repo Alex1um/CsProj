@@ -4,7 +4,7 @@ using HackatonBase.Participants;
 using HackatonBase.DataIO;
 
 
-public class ParticipantService : IHostedService
+public class ParticipantService
 {
     public List<Uri> ParticipantsUri = [];
 
@@ -12,7 +12,7 @@ public class ParticipantService : IHostedService
 
     public List<Teamlead> Teamleads = CSVReader.Read<Teamlead>("Teamleads5.csv");
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public async Task InitAsync()
     {
         DockerClient client = new DockerClientConfiguration(
             new Uri("unix://var/run/docker.sock"))
@@ -39,10 +39,5 @@ public class ParticipantService : IHostedService
         return;
     }
 
-
-    public async Task StopAsync(CancellationToken cancellationToken)
-    {
-        return;
-    }
 
 }

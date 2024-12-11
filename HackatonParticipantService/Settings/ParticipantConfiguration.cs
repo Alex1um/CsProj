@@ -6,7 +6,7 @@ using HackatonBase.DataIO;
 using HackatonBase.Participants;
 
 
-public class ParticipantConfiguration : IHostedService
+public class ParticipantConfiguration
 {
     // public int? Id { get; set; }
     // public string? Name { get; set; }
@@ -42,7 +42,7 @@ public class ParticipantConfiguration : IHostedService
         }
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public async Task InitAsync()
     {
         if (!IsSetupNeeded)
         {
@@ -86,11 +86,6 @@ public class ParticipantConfiguration : IHostedService
             };
         }
         Console.WriteLine($"{Info.Id} {Info.Name}");
-        return;
-    }
-
-    public async Task StopAsync(CancellationToken cancellationToken)
-    {
         return;
     }
 

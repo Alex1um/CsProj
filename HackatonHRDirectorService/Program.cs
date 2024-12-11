@@ -11,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddCommandLine(args);
 builder.Configuration.AddEnvironmentVariables();
-builder.Services.AddHostedService<ParticipantService>();
+builder.Services.AddSingleton<ParticipantService>();
+
 builder.Services.AddSingleton<HRDirectorDbService>();
 builder.Services.AddSingleton<HRDirector>();
 
@@ -24,6 +25,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+await app.Services.GetRequiredService<ParticipantService>().InitAsync();
 
 app.UseSwagger();
 app.UseSwaggerUI();
