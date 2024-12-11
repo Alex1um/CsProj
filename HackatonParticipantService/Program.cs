@@ -3,6 +3,7 @@ using HackatonBase.Models;
 using HackatonBase.Participants;
 using HackatonBase.Extensions;
 using HackatonBase;
+using Microsoft.AspNetCore.Mvc;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,8 @@ await app.Services.GetRequiredService<ParticipantConfiguration>().InitAsync();
 
 app.MapGet("/", (ParticipantConfiguration config) => config.Info.Name);
 
-app.MapGet("/hackaton", async (ParticipantConfiguration config, HackatonAnnouncement<Participant> participants) => {
+app.MapPost("/hackaton", async ([FromServices]ParticipantConfiguration config, [FromBody]HackatonAnnouncement<Participant> participants) => {
+    Console.WriteLine("Participants: " + participants.participants.Count);
     var shuffledParticipants = participants.participants.GetShuffled();
     var hackatonParticipantRegistration = new HackatonParticipantRegistration {
         Preferences = shuffledParticipants,
@@ -34,4 +36,4 @@ app.MapGet("/hackaton", async (ParticipantConfiguration config, HackatonAnnounce
     return "Ok";
 });
 
-await app.RunAsync(Environment.GetEnvironmentVariable("URL") ?? "http://localhost:8080");
+app.Run(Environment.GetEnvironmentVariable("URL") ?? "http://0.0.0.0:8080");

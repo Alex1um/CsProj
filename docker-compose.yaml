@@ -1,5 +1,9 @@
 version: '3.4'
 
+networks:
+  hackaton-network:
+    driver: bridge
+
 services:
   hackaton-participant-teamleads-service:
     image: hackatonparticipantservice:latest
@@ -8,12 +12,14 @@ services:
       dockerfile: HackatonParticipantService/Dockerfile
     environment:
       - PARTICIPANT=teamlead
-      - HRMANAGER_URL=http://hackaton-hr-manager-service:8080
+      - HRMANAGER_URL=http://csproj-hackaton-hr-manager-service:8080
     volumes:
       - ./data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
       replicas: 5
+    networks:
+      - hackaton-network
   
   hackaton-participant-juniors-service:
     image: hackatonparticipantservice:latest
@@ -22,12 +28,14 @@ services:
       dockerfile: HackatonParticipantService/Dockerfile
     environment:
       - PARTICIPANT=junior
-      - HRMANAGER_URL=http://hackaton-hr-manager-service:8080
+      - HRMANAGER_URL=http://csproj-hackaton-hr-manager-service:8080
     volumes:
       - ./data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
       replicas: 5
+    networks:
+      - hackaton-network
   
   hackaton-hr-manager-service:
     image: hackatonhrmanagerservice:latest
@@ -36,11 +44,13 @@ services:
       dockerfile: HackatonHRManagerService/Dockerfile
     environment:
       - REQUESTSTHRESHOLD=10
-      - HRDIRECTORURL=http://hackaton-hr-director-service:8080
+      - HRDIRECTORURL=http://csproj-hackaton-hr-director-service:8080
     volumes:
       - ./data:/app/data
     deploy:
       replicas: 1
+    networks:
+      - hackaton-network
   
   hackaton-hr-director-service:
     image: hackatonhrdirectorservice:latest
@@ -58,6 +68,8 @@ services:
       - db
     deploy:
       replicas: 1
+    networks:
+      - hackaton-network
 
   db:
     image: postgres:11
@@ -65,4 +77,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: hackatonhrdirectorservice
+    networks:
+      - hackaton-network
 

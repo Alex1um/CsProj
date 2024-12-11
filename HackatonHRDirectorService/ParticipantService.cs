@@ -31,7 +31,7 @@ public class ParticipantService
             .Select(c =>
             {
                 Console.WriteLine(c.Names.First());
-                return new Uri("http:/" + c.Names.First() + ":8080");
+                return new Uri("http://" + c.Names.First()[1..] + ":8080");
             })
             .ToList()
         );

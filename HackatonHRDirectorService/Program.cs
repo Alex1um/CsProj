@@ -62,7 +62,7 @@ app.MapGet("/start", async ([FromServices]ParticipantService participantService)
     }
 });
 
-app.MapPost("/hackaton", (HRDirector directorService, TeamRegistration teamRegistration, HRDirectorDbService dbService) =>
+app.MapPost("/hackaton", ([FromServices]HRDirector directorService, [FromBody]TeamRegistration teamRegistration, [FromServices]HRDirectorDbService dbService) =>
 {
     var scores = directorService.CalcSatisfactionIndex(teamRegistration.teamleadLists, teamRegistration.junLists, teamRegistration.resultList);
     var result = directorService.GetHarmonicMean(scores);
@@ -71,4 +71,4 @@ app.MapPost("/hackaton", (HRDirector directorService, TeamRegistration teamRegis
 });
 
 
-app.Run();
+app.Run(Environment.GetEnvironmentVariable("URL") ?? "http://0.0.0.0:8080");
