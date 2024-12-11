@@ -14,5 +14,6 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.*-*" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Docker.DotNet" Version="3.125.15" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.5" />
   </ItemGroup>
 </Project>

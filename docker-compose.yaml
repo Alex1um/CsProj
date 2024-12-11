@@ -8,7 +8,7 @@ services:
       dockerfile: HackatonParticipantService/Dockerfile
     environment:
       - PARTICIPANT=teamlead
-      - HRMANAGER_URL=http://hackaton-hr-manager-service:80
+      - HRMANAGER_URL=http://hackaton-hr-manager-service:8080
     volumes:
       - ./data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
@@ -22,7 +22,7 @@ services:
       dockerfile: HackatonParticipantService/Dockerfile
     environment:
       - PARTICIPANT=junior
-      - HRMANAGER_URL=http://hackaton-hr-manager-service:80
+      - HRMANAGER_URL=http://hackaton-hr-manager-service:8080
     volumes:
       - ./data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
@@ -34,6 +34,9 @@ services:
     build:
       context: .
       dockerfile: HackatonHRManagerService/Dockerfile
+    environment:
+      - REQUESTSTHRESHOLD=10
+      - HRDIRECTORURL=http://hackaton-hr-director-service:8080
     volumes:
       - ./data:/app/data
     deploy:
@@ -49,5 +52,17 @@ services:
     volumes:
       - ./data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - POSTGRES_CONNECTION_STRING=Postgres://postgres:postgres@db:5432/hackatonhrdirectorservice
+    depends_on:
+      - db
     deploy:
       replicas: 1
+
+  db:
+    image: postgres:11
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: hackatonhrdirectorservice
+

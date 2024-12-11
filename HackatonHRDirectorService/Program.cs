@@ -2,6 +2,9 @@ using HackatonBase.Extensions;
 using HackatonBase.Models;
 using HackatonBase.Participants;
 using Microsoft.AspNetCore.Mvc;
+using HackatonBase.DB;
+using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,11 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddHostedService<ParticipantService>();
 builder.Services.AddSingleton<HRDirector>();
+
+builder.Services.AddDbContextPool<HackatonDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("POSTGRES_CONNECTION_STRING"));
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
