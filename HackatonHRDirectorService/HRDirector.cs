@@ -5,7 +5,6 @@ using HackatonBase.Participants;
 
 public class HRDirector()
 {
-    
 
     public Dictionary<Assignment<Teamlead, Junior>, int> CalcSatisfactionIndex(
         PreferencesStore<Teamlead, Junior> teamleadLists,

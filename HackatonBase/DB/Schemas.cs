@@ -56,7 +56,7 @@ public class TeamScheme<T, V> where T : notnull where V : Participant
 public static class SchemeConverters
 {
 
-    internal static PreferenceScheme<T, V>[] ToPreferencsScheme<T, V>(this PreferencesStore<T, V> assignmentStore, int hackatonId)
+    public static PreferenceScheme<T, V>[] ToPreferencsScheme<T, V>(this PreferencesStore<T, V> assignmentStore, int hackatonId)
         where T : notnull, Participant where V : Participant
     {
         return assignmentStore.Select(assignment => new PreferenceScheme<T, V>
@@ -67,7 +67,7 @@ public static class SchemeConverters
         }).ToArray();
     }
 
-    internal static TeamScheme<K, V>[] ToTeamsScheme<K, V>(this AssignmentStore<K, V> assignmentStore, int runId)
+    public static TeamScheme<K, V>[] ToTeamsScheme<K, V>(this AssignmentStore<K, V> assignmentStore, int runId)
         where K : notnull, Participant where V : notnull, Participant
     {
         return assignmentStore.Select(assignment => new TeamScheme<K, V>

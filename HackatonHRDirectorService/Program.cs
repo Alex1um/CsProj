@@ -4,14 +4,15 @@ using HackatonBase.Participants;
 using Microsoft.AspNetCore.Mvc;
 using HackatonBase.DB;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddCommandLine(args);
 builder.Configuration.AddEnvironmentVariables();
-
 builder.Services.AddHostedService<ParticipantService>();
+builder.Services.AddSingleton<HRDirectorDbService>();
 builder.Services.AddSingleton<HRDirector>();
 
 builder.Services.AddDbContextPool<HackatonDbContext>(options =>
@@ -29,7 +30,12 @@ app.UseSwaggerUI();
 
 app.MapGet("/", ([FromServices]ParticipantService participantService) =>
 {
-    return $"{participantService.ParticipantsUri}";
+    var stringBuilder = new StringBuilder();
+    foreach (var uri in participantService.ParticipantsUri)
+    {
+        stringBuilder.AppendLine(uri.ToString());
+    }
+    return stringBuilder.ToString();
 });
 
 app.MapGet("/start", async ([FromServices]ParticipantService participantService) =>
@@ -53,9 +59,11 @@ app.MapGet("/start", async ([FromServices]ParticipantService participantService)
     }
 });
 
-app.MapPost("/hackaton", (HRDirector directorService, TeamRegistration teamRegistration) =>
+app.MapPost("/hackaton", (HRDirector directorService, TeamRegistration teamRegistration, HRDirectorDbService dbService) =>
 {
-    var result = directorService.CalculateHarmonicMean(teamRegistration.teamleadLists, teamRegistration.junLists, teamRegistration.resultList);
+    var scores = directorService.CalcSatisfactionIndex(teamRegistration.teamleadLists, teamRegistration.junLists, teamRegistration.resultList);
+    var result = directorService.GetHarmonicMean(scores);
+    dbService.AddMeanDataToDb(teamRegistration.junLists, teamRegistration.teamleadLists, teamRegistration.resultList, scores, result);
     Console.WriteLine(result);
 });
 

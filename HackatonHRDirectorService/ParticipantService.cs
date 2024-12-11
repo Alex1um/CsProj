@@ -27,7 +27,7 @@ public class ParticipantService : IHostedService
                         All = true
                     })
             )
-            .Where(c => c.Names.Any(n => n.Contains("hackaton-participant")))
+            .Where(c => c.Names.Any(n => n.Contains("hackaton-participant-service")))
             .Select(c =>
             {
                 Console.WriteLine(c.Names.First());
