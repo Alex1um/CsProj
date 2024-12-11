@@ -1,7 +1,7 @@
 namespace HackatonBase.Participants;
 using HackatonBase.Extensions;
 
-abstract public class Participant
+public class Participant
 {
     public required int Id { get; init; }
     public required string Name { get; init; }

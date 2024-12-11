@@ -1,8 +1,7 @@
-namespace HackatonService;
-
-using HackatonService.DB;
-using HackatonService.Extensions;
-using HackatonService.Participants;
+using HackatonBase;
+using HackatonBase.DB;
+using HackatonBase.Extensions;
+using HackatonBase.Participants;
 
 public class HRDirector()
 {

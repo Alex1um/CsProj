@@ -8,13 +8,14 @@ using HackatonBase.Participants;
 
 public class ParticipantConfiguration : IHostedService
 {
-    public int? Id { get; set; }
-    public string? Name { get; set; }
+    // public int? Id { get; set; }
+    // public string? Name { get; set; }
+    public Participant Info;
 
     public Uri? HRManagerURL;
 
     private string? Hostname;
-    private string? ParticipantType;
+    public string? ParticipantType;
     private bool IsSetupNeeded = true;
     
 
@@ -22,13 +23,23 @@ public class ParticipantConfiguration : IHostedService
     {
         Hostname = configuration.GetValue<string>("HOSTNAME");
         var name = configuration.GetValue<string>("Name");
+        ParticipantType = configuration.GetValue<string>("PARTICIPANT") ?? "junior";
         if (name != null)
         {
-            Name = name;
-            Id = configuration.GetValue<int>("Id");
+            if (ParticipantType == "junior")
+            {
+                Info = new Junior() {
+                    Name = name,
+                    Id = configuration.GetValue<int>("Id")
+                };
+            } else {
+                Info = new Teamlead() {
+                    Name = name,
+                    Id = configuration.GetValue<int>("Id")
+                };
+            }
             IsSetupNeeded = false;
         }
-        ParticipantType = configuration.GetValue<string>("PARTICIPANT") ?? "junior";
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
@@ -60,17 +71,21 @@ public class ParticipantConfiguration : IHostedService
         {
             var list = CSVReader.Read<Junior>("Juniors5.csv");
             var teamlead = list.First(t => t.Id == containerIndex);
-            Name = teamlead.Name;
-            Id = teamlead.Id;
+            Info = new Junior {
+                Name = teamlead.Name,
+                Id = teamlead.Id
+            };
         }
         else if (ParticipantType == "teamlead")
         {
             var list = CSVReader.Read<Teamlead>("Teamleads5.csv");
             var teamlead = list.First(t => t.Id == containerIndex);
-            Name = teamlead.Name;
-            Id = teamlead.Id;
+            Info = new Teamlead {
+                Name = teamlead.Name,
+                Id = teamlead.Id
+            };
         }
-        Console.WriteLine($"{Id} {Name}");
+        Console.WriteLine($"{Info.Id} {Info.Name}");
         return;
     }
 

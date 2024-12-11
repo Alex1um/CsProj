@@ -10,5 +10,10 @@
     <ProjectReference Include="..\HackatonBase\HackatonBase.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.*-*" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
   
 </Project>

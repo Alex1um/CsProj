@@ -13,7 +13,7 @@ services:
       - ./data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
-      replicas: 2
+      replicas: 5
   
   hackaton-participant-juniors-service:
     image: hackatonparticipantservice:latest
@@ -22,11 +22,12 @@ services:
       dockerfile: HackatonParticipantService/Dockerfile
     environment:
       - PARTICIPANT=junior
+      - HRMANAGER_URL=http://hackaton-hr-manager-service:80
     volumes:
       - ./data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
     deploy:
-      replicas: 2
+      replicas: 5
   
   hackaton-hr-manager-service:
     image: hackatonhrmanagerservice:latest
@@ -43,7 +44,10 @@ services:
     build:
       context: .
       dockerfile: HackatonHRDirectorService/Dockerfile
+    ports:
+      - "8080:8080"
     volumes:
       - ./data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
     deploy:
       replicas: 1

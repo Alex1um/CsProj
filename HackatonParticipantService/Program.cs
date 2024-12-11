@@ -1,10 +1,8 @@
 using HackatonParticipantService.Settings;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using HackatonBase.Models;
 using HackatonBase.Participants;
 using HackatonBase.Extensions;
-using Docker.DotNet.Models;
+using HackatonBase;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,16 +15,20 @@ builder.Services.AddHostedService<ParticipantConfiguration>();
 
 var app = builder.Build();
 
-app.MapGet("/", (ParticipantConfiguration config) => config.Name);
+app.MapGet("/", (ParticipantConfiguration config) => config.Info.Name);
 
 app.MapGet("/hackaton", async (ParticipantConfiguration config, HackatonAnnouncement<Participant> participants) => {
-    var shuffled_participants = participants.participants.GetShuffled();
-    // var content = 
+    var shuffledParticipants = participants.participants.GetShuffled();
+    var hackatonParticipantRegistration = new HackatonParticipantRegistration {
+        Preferences = shuffledParticipants,
+        ParticipantInfo = config.Info,
+        PatricipantType = config.ParticipantType ?? "junior"
+    };
     using HttpClient client = new()
         {
             BaseAddress = config.HRManagerURL
         };
-    var request = await client.PostAsJsonAsync("/hackaton", shuffled_participants);
+    var request = await client.PostAsJsonAsync("/hackaton", hackatonParticipantRegistration);
     return "Ok";
 });
 
