@@ -22,6 +22,7 @@ public class ParticipantConfiguration
     public ParticipantConfiguration(IConfiguration configuration)
     {
         Hostname = configuration.GetValue<string>("HOSTNAME");
+        HRManagerURL = new Uri(configuration.GetValue<string>("HRMANAGER_URL"));
         var name = configuration.GetValue<string>("Name");
         ParticipantType = configuration.GetValue<string>("PARTICIPANT") ?? "junior";
         if (name != null)

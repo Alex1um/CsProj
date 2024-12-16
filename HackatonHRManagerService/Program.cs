@@ -21,7 +21,8 @@ builder.Services.AddSingleton<HRManager>();
 
 builder.Services.AddDbContextPool<HackatonDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("POSTGRES_CONNECTION_STRING"));
+    // options.UseNpgsql(builder.Configuration.GetConnectionString("POSTGRES_CONNECTION_STRING"));
+    options.UseNpgsql(builder.Configuration.GetValue<string>("POSTGRES_CONNECTION_STRING"));
 });
 
 builder.Services.AddEndpointsApiExplorer();

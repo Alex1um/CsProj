@@ -21,6 +21,7 @@ await app.Services.GetRequiredService<ParticipantConfiguration>().InitAsync();
 app.MapGet("/", (ParticipantConfiguration config) => config.Info.Name);
 
 app.MapPost("/hackaton", async ([FromServices]ParticipantConfiguration config, [FromBody]HackatonAnnouncement<Participant> participants) => {
+    Console.WriteLine("Participants: " + participants);
     Console.WriteLine("Participants: " + participants.Participants.Count);
     var shuffledParticipants = participants.Participants.GetShuffled();
     var hackatonParticipantRegistration = new HackatonParticipantRegistration {
