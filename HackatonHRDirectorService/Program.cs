@@ -6,6 +6,7 @@ using HackatonBase.DB;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using HackatonBase;
+using RabbitMQ.Client;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddSingleton<ParticipantService>();
 
 builder.Services.AddSingleton<HRDirectorDbService>();
+builder.Services.AddSingleton<HRDirectorRabbitMSendQService>();
 builder.Services.AddSingleton<HRDirector>();
 
 builder.Services.AddDbContextPool<HackatonDbContext>(options =>
@@ -41,6 +43,16 @@ app.MapGet("/", (IConfiguration configuration, [FromServices] ParticipantService
         stringBuilder.AppendLine(uri.ToString());
     }
     return stringBuilder.ToString();
+});
+
+
+app.MapGet("/broke", async ([FromServices] ParticipantService participantService, [FromServices] HRDirectorDbService dbService, [FromServices] HRDirectorRabbitMSendQService rabbit) =>
+{
+    var runId = dbService.CreateRun();
+    var juniorParticipantsModel = new HackatonAnnouncement<Junior> { Participants = participantService.Juniors, HackatonRunId = runId };
+    var teamleadsParticipantsModel = new HackatonAnnouncement<Teamlead> { Participants = participantService.Teamleads, HackatonRunId = runId };
+    rabbit.SendJuniorStartMessage(juniorParticipantsModel);
+    rabbit.SendTeamleadStartMessage(teamleadsParticipantsModel);
 });
 
 app.MapGet("/start", async (ParticipantService participantService, HRDirectorDbService dbService) =>

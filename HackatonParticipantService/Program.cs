@@ -14,6 +14,8 @@ builder.Configuration.AddEnvironmentVariables();
 // builder.Services.Configure<ParticipantConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<ParticipantConfiguration>();
 
+builder.Services.AddHostedService<ParticipantRabbitMQListenService>();
+
 var app = builder.Build();
 
 await app.Services.GetRequiredService<ParticipantConfiguration>().InitAsync();
@@ -28,7 +30,6 @@ app.MapPost("/hackaton", async ([FromServices]ParticipantConfiguration config, [
         PatricipantType = config.ParticipantType ?? "junior",
         ParticipantInfo = config.Info,
     };
-    Console.WriteLine(config.HRManagerURL);
     using HttpClient client = new()
         {
             BaseAddress = config.HRManagerURL
