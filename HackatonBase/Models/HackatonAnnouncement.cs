@@ -4,5 +4,6 @@ using HackatonBase.Participants;
 
 public class HackatonAnnouncement<T> where T : Participant
 {
-    public List<T> participants;
+    public int HackatonRunId;
+    public List<T> Participants;
 }

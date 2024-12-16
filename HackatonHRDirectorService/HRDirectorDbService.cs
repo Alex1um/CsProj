@@ -14,33 +14,29 @@ class HRDirectorDbService
         AddParticipantDataToDb(participantService.Juniors, participantService.Teamleads);
     }
 
-    public void AddMeanDataToDb(
-        PreferencesStore<Junior, Teamlead> juniorsTeamleads,
-        PreferencesStore<Teamlead, Junior> teamleadsJuniors,
-        AssignmentStore<Teamlead, Junior> teams,
-        Dictionary<Assignment<Teamlead, Junior>, int> scores,
-        double harmonicMean
-    ) 
-    {
+    public int CreateRun() {
         var run = new HackatonRunScheme
         {
             HackatonId = HackatonId
         };
         _context.Add(run);
         _context.SaveChanges();
-        _context.JuniorLists.AddRange(juniorsTeamleads.ToPreferencsScheme(HackatonId));
-        _context.SaveChanges();
-        _context.TeamleadLists.AddRange(teamleadsJuniors.ToPreferencsScheme(HackatonId));
-        _context.SaveChanges();
-        _context.Teams.AddRange(teams.ToTeamsScheme(run.Id));
-        _context.SaveChanges();
+        return run.Id;
+    }
+
+    public void AddMeanDataToDb(
+        int runId,
+        Dictionary<Assignment<Teamlead, Junior>, int> scores,
+        double harmonicMean
+    ) 
+    {
         foreach (var (assignment, score) in scores)
         {
-            var team = _context.Teams.Single(team => team.HackatonRunId == run.Id && team.TeamleadId == assignment.Teamlead.Id && team.JuniorId == assignment.Junior.Id);
+            var team = _context.Teams.Single(team => team.HackatonRunId == runId && team.TeamleadId == assignment.Teamlead.Id && team.JuniorId == assignment.Junior.Id);
             team.Score = score;
         }
         _context.SaveChanges();
-        _context.HachatonRuns.Single(srun => srun.Id == run.Id).mean = harmonicMean;
+        _context.HachatonRuns.Single(srun => srun.Id == runId).mean = harmonicMean;
         _context.SaveChanges();
     }
 

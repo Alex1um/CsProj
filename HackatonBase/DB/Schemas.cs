@@ -23,12 +23,12 @@ public class HackatonRunScheme
 
 }
 
-[PrimaryKey(nameof(HackatonId), nameof(UnitId))]
+[PrimaryKey(nameof(HackatonRunId), nameof(UnitId))]
 public class PreferenceScheme<T, V> where T : notnull, Participant where V : Participant
 {
 
     [ForeignKey(nameof(HackatonScheme))]
-    public int HackatonId { get; set; }
+    public int HackatonRunId { get; set; }
 
     [ForeignKey(nameof(T))]
     public int UnitId { get; set; }
@@ -61,7 +61,7 @@ public static class SchemeConverters
     {
         return assignmentStore.Select(assignment => new PreferenceScheme<T, V>
         {
-            HackatonId = hackatonId,
+            HackatonRunId = hackatonId,
             UnitId = assignment.Key.Id,
             Prefered = new List<int>(assignment.Value.Select(p => p.Id)), // assignment.Value,
         }).ToArray();
@@ -77,5 +77,21 @@ public static class SchemeConverters
             JuniorId = assignment.Value.Id,
         }).ToArray();
     }
+
+    public static T ToParticipant<T>(this int id, List<T> participants) where T : notnull, Participant {
+        return participants.Single(x => x.Id == id);
+    }
+
+    public static List<T> ToParticipants<T>(this ICollection<int> ids, List<T> participants) where T : notnull, Participant {
+        return ids.Select(x => x.ToParticipant(participants)).ToList();
+    }
+
+    public static PreferencesStore<T, V> ToPreferenceStore<T, V>(this PreferenceScheme<T, V>[] preferencsScheme, List<T> participantsKeys, List<V> participantsValues) where T : notnull, Participant where V : notnull, Participant {
+        return new PreferencesStore<T, V>(preferencsScheme.ToDictionary(x => x.UnitId.ToParticipant(participantsKeys), x => x.Prefered.ToParticipants(participantsValues)));
+    }
+
+    // public static List<T> ToList<T>(this IEnumerable<T> list) where T : Participant {
+    //     return list.ToList();
+    // }
 
 }

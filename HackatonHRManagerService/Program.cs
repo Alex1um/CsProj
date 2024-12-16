@@ -4,6 +4,8 @@ using HackatonBase.Participants;
 using HackatonBase.Models;
 using HackatonBase.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using HackatonBase.DB;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,13 @@ builder.Services.AddOptions<HackatonSettings>().Bind(builder.Configuration);
 
 builder.Services.AddTransient<ITeamBuildingStrategy, StableMarriageTeamBuildingStrategy>();
 builder.Services.AddTransient<ITeamBuildingStrategy, RandomTeamBuildingStrategy>();
+builder.Services.AddHostedService<HackatonReadyCheckerService>();
 builder.Services.AddSingleton<HRManager>();
+
+builder.Services.AddDbContextPool<HackatonDbContext>(options =>
+{
+    options.UseNpgsql(builder.Configuration.GetConnectionString("POSTGRES_CONNECTION_STRING"));
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -27,35 +35,18 @@ app.UseSwaggerUI();
 
 app.MapGet("/", (IOptions<HackatonSettings> settings, HRManager hrManager) =>
 {
-    return $"{hrManager.RequestsCounter} >= {settings.Value.RequestsThreshold}";
+    return "Hello World!";
 });
 
 app.MapPost("/hackaton", async ([FromServices] IOptions<HackatonSettings> settings, [FromServices] HRManager hrManager, [FromBody] HackatonParticipantRegistration registration) =>
 {
-    hrManager.RequestsCounter += 1;
-
     if (registration.PatricipantType == "junior")
     {
-        hrManager.AddParticipant(registration.ParticipantInfo.ToSub<Junior>(), registration.Preferences.ToSub<Teamlead>());
+        hrManager.AddParticipant(registration.ParticipantInfo.ToSub<Junior>(), registration.Preferences.ToSub<Teamlead>(), registration.HackatonRunId);
     }
     else if (registration.PatricipantType == "teamlead")
     {
-        hrManager.AddParticipant(registration.ParticipantInfo.ToSub<Teamlead>(), registration.Preferences.ToSub<Junior>());
-    }
-    if (hrManager.RequestsCounter >= settings.Value.RequestsThreshold)
-    {
-        var (AssignmentStore, teamleadLists, junLists) = hrManager.GetBuildedTeams();
-        var TeamRegistration = new TeamRegistration
-        {
-            resultList = AssignmentStore,
-            teamleadLists = teamleadLists,
-            junLists = junLists
-        };
-        using HttpClient client = new()
-        {
-            BaseAddress = settings.Value.HRDirectorURL
-        };
-        var request = await client.PostAsJsonAsync("/hackaton", TeamRegistration);
+        hrManager.AddParticipant(registration.ParticipantInfo.ToSub<Teamlead>(), registration.Preferences.ToSub<Junior>(), registration.HackatonRunId);
     }
 });
 

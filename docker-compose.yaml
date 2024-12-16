@@ -43,8 +43,9 @@ services:
       context: .
       dockerfile: HackatonHRManagerService/Dockerfile
     environment:
-      - REQUESTSTHRESHOLD=10
       - HRDIRECTORURL=http://csproj-hackaton-hr-director-service:8080
+      # - POSTGRES_CONNECTION_STRING=Postgres://postgres:postgres@db:5432/hackatonhrdirectorservice
+      - POSTGRES_CONNECTION_STRING="Server=db;Port=5432;Database=hackatonhrdirectorservice;User Id=postgres;Password=postgres;"
     volumes:
       - ./data:/app/data
     deploy:
@@ -63,7 +64,8 @@ services:
       - ./data:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - POSTGRES_CONNECTION_STRING=Postgres://postgres:postgres@db:5432/hackatonhrdirectorservice
+      # - POSTGRES_CONNECTION_STRING=Postgres://postgres:postgres@db:5432/hackatonhrdirectorservice
+      - POSTGRES_CONNECTION_STRING="Server=db;Port=5432;Database=hackatonhrdirectorservice;User Id=postgres;Password=postgres;"
     depends_on:
       - db
     deploy:
@@ -77,6 +79,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: hackatonhrdirectorservice
+    ports:
+      - "5432:5432"
     networks:
       - hackaton-network
 

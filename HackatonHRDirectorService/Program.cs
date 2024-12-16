@@ -18,7 +18,8 @@ builder.Services.AddSingleton<HRDirector>();
 
 builder.Services.AddDbContextPool<HackatonDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("POSTGRES_CONNECTION_STRING"));
+    // options.UseNpgsql(builder.Configuration.GetConnectionString("POSTGRES_CONNECTION_STRING"));
+    options.UseNpgsql(builder.Configuration.GetValue<string>("POSTGRES_CONNECTION_STRING"));
 });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -31,8 +32,10 @@ await app.Services.GetRequiredService<ParticipantService>().InitAsync();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.MapGet("/", ([FromServices]ParticipantService participantService) =>
+app.MapGet("/", (IConfiguration configuration, [FromServices] ParticipantService participantService) =>
 {
+    Console.WriteLine(configuration.GetConnectionString("POSTGRES_CONNECTION_STRING"));
+    Console.WriteLine(configuration.GetValue<string>("POSTGRES_CONNECTION_STRING"));
     var stringBuilder = new StringBuilder();
     foreach (var uri in participantService.ParticipantsUri)
     {
@@ -41,10 +44,11 @@ app.MapGet("/", ([FromServices]ParticipantService participantService) =>
     return stringBuilder.ToString();
 });
 
-app.MapGet("/start", async ([FromServices]ParticipantService participantService) =>
+app.MapGet("/start", async (ParticipantService participantService, HRDirectorDbService dbService) =>
 {
-    var juniorParticipantsModel = new HackatonAnnouncement<Junior> { participants = participantService.Juniors };
-    var teamleadsParticipantsModel = new HackatonAnnouncement<Teamlead> { participants = participantService.Teamleads };
+    var runId = dbService.CreateRun();
+    var juniorParticipantsModel = new HackatonAnnouncement<Junior> { Participants = participantService.Juniors, HackatonRunId = runId };
+    var teamleadsParticipantsModel = new HackatonAnnouncement<Teamlead> { Participants = participantService.Teamleads, HackatonRunId = runId };
     foreach (var participantURL in participantService.ParticipantsUri)
     {
         using HttpClient client = new()
@@ -62,11 +66,11 @@ app.MapGet("/start", async ([FromServices]ParticipantService participantService)
     }
 });
 
-app.MapPost("/hackaton", ([FromServices]HRDirector directorService, [FromBody]TeamRegistration teamRegistration, [FromServices]HRDirectorDbService dbService) =>
+app.MapPost("/hackaton", ([FromServices] HRDirector directorService, [FromBody] TeamRegistration teamRegistration, [FromServices] HRDirectorDbService dbService) =>
 {
     var scores = directorService.CalcSatisfactionIndex(teamRegistration.teamleadLists, teamRegistration.junLists, teamRegistration.resultList);
     var result = directorService.GetHarmonicMean(scores);
-    dbService.AddMeanDataToDb(teamRegistration.junLists, teamRegistration.teamleadLists, teamRegistration.resultList, scores, result);
+    dbService.AddMeanDataToDb(teamRegistration.HackatonRunId, scores, result);
     Console.WriteLine(result);
 });
 

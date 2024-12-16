@@ -1,33 +1,34 @@
 using HackatonBase.Participants;
 using HackatonBase.Strategies;
+using HackatonBase.DB;
 using HackatonBase;
+using Microsoft.EntityFrameworkCore;
 
-public class HRManager(ITeamBuildingStrategy strategy)
+public class HRManager(ITeamBuildingStrategy strategy, HackatonDbContext context)
 {
+    private readonly HackatonDbContext _context = context;
+
     private readonly ITeamBuildingStrategy strategy = strategy;
 
-    public int RequestsCounter { get; set; } = 0;
-
-    public Dictionary<Teamlead, List<Junior>> TeamleadPreferencesLists { get; set; } = [];
-    public Dictionary<Junior, List<Teamlead>> JunPreferencesLists { get; set; } = [];
-
-    public void AddParticipant(Junior participant, List<Teamlead> preferences) {
-        JunPreferencesLists.Add(participant, preferences);
+    public void AddParticipant(Junior participant, List<Teamlead> preferences, int HackatonRunId) {
+        _context.Add(new PreferenceScheme<Junior, Teamlead> {
+            HackatonRunId = HackatonRunId,
+            UnitId = participant.Id,
+            Prefered = preferences.Select(p => p.Id).ToList()
+        });
+        _context.SaveChanges();
     }
 
-    public void AddParticipant(Teamlead participant, List<Junior> preferences) {
-        TeamleadPreferencesLists.Add(participant, preferences);
+    public void AddParticipant(Teamlead participant, List<Junior> preferences, int HackatonRunId) {
+        _context.Add(new PreferenceScheme<Teamlead, Junior> {
+            HackatonRunId = HackatonRunId,
+            UnitId = participant.Id,
+            Prefered = preferences.Select(p => p.Id).ToList()
+        });
+        _context.SaveChanges();
     }
 
-    public (AssignmentStore<Teamlead, Junior>, PreferencesStore<Teamlead, Junior>, PreferencesStore<Junior, Teamlead>) GetBuildedTeams() {
-        var teamleads = TeamleadPreferencesLists.Keys.ToList();
-        var juniors = JunPreferencesLists.Keys.ToList();
-        var teamleadLists = new PreferencesStore<Teamlead, Junior>(TeamleadPreferencesLists);
-        var junLists = new PreferencesStore<Junior, Teamlead>(JunPreferencesLists);
-        return (BuildTeams(teamleads, juniors, teamleadLists, junLists), teamleadLists, junLists);
-    }
-
-    private AssignmentStore<Teamlead, Junior> BuildTeams(
+    public AssignmentStore<Teamlead, Junior> BuildTeams(
         List<Teamlead> teamleads,
         List<Junior> juniors,
         PreferencesStore<Teamlead, Junior> teamleadLists,
