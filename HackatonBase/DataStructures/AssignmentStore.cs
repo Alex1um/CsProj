@@ -4,7 +4,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using HackatonBase.Participants;
 using System.Linq;
-
+using Npgsql.Replication;
+using System.Text;
 
 public class Assignment<K, V> {
     public K Teamlead { get; set; }
@@ -19,6 +20,9 @@ public class AssignmentStore<K, V> : ReadOnlyDictionary<K, V> where K : notnull,
         PreferencesStore<K, V> kLists,
         PreferencesStore<V, K> vLists
     ) {
+        kLists.Print();
+        vLists.Print();
+        this.Print();
         var resultDict = new Dictionary<Assignment<K, V>, int>();
         foreach (var (teamlead, junior) in this)
         {
@@ -43,5 +47,23 @@ public class AssignmentStore<K, V> : ReadOnlyDictionary<K, V> where K : notnull,
         }
 
         return result;
+    }
+
+    public void Print() {
+        var sb = new StringBuilder("{\n");
+        foreach (var (key, value) in this)
+        {
+            sb.Append($"\t{key}: {value}\n");
+        }
+        sb.Append('}');
+        Console.WriteLine(sb.ToString());
+    }
+
+    public List<Tuple<K, V>> ToJsonSerializable() {
+        return this.Select(x => Tuple.Create(x.Key, x.Value)).ToList();
+    }
+
+    public static AssignmentStore<K, V> FromJson(List<Tuple<K, V>> lst) {
+        return new AssignmentStore<K, V>(lst.ToDictionary(x => x.Item1, x => x.Item2));
     }
 }

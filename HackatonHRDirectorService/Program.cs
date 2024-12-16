@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using HackatonBase.DB;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
+using HackatonBase;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,8 +35,6 @@ app.UseSwaggerUI();
 
 app.MapGet("/", (IConfiguration configuration, [FromServices] ParticipantService participantService) =>
 {
-    Console.WriteLine(configuration.GetConnectionString("POSTGRES_CONNECTION_STRING"));
-    Console.WriteLine(configuration.GetValue<string>("POSTGRES_CONNECTION_STRING"));
     var stringBuilder = new StringBuilder();
     foreach (var uri in participantService.ParticipantsUri)
     {
@@ -68,7 +67,11 @@ app.MapGet("/start", async (ParticipantService participantService, HRDirectorDbS
 
 app.MapPost("/hackaton", ([FromServices] HRDirector directorService, [FromBody] TeamRegistration teamRegistration, [FromServices] HRDirectorDbService dbService) =>
 {
-    var scores = directorService.CalcSatisfactionIndex(teamRegistration.teamleadLists, teamRegistration.junLists, teamRegistration.resultList);
+    var scores = directorService.CalcSatisfactionIndex(
+        PreferencesStore<Teamlead, Junior>.FromJson(teamRegistration.teamleadLists),
+        PreferencesStore<Junior, Teamlead>.FromJson(teamRegistration.junLists),
+        AssignmentStore<Teamlead, Junior>.FromJson(teamRegistration.resultList)
+    );
     var result = directorService.GetHarmonicMean(scores);
     dbService.AddMeanDataToDb(teamRegistration.HackatonRunId, scores, result);
     Console.WriteLine(result);

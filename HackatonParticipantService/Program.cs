@@ -21,15 +21,14 @@ await app.Services.GetRequiredService<ParticipantConfiguration>().InitAsync();
 app.MapGet("/", (ParticipantConfiguration config) => config.Info.Name);
 
 app.MapPost("/hackaton", async ([FromServices]ParticipantConfiguration config, [FromBody]HackatonAnnouncement<Participant> participants) => {
-    Console.WriteLine("Participants: " + participants);
-    Console.WriteLine("Participants: " + participants.Participants.Count);
     var shuffledParticipants = participants.Participants.GetShuffled();
     var hackatonParticipantRegistration = new HackatonParticipantRegistration {
         HackatonRunId = participants.HackatonRunId,
         Preferences = shuffledParticipants,
+        PatricipantType = config.ParticipantType ?? "junior",
         ParticipantInfo = config.Info,
-        PatricipantType = config.ParticipantType ?? "junior"
     };
+    Console.WriteLine(config.HRManagerURL);
     using HttpClient client = new()
         {
             BaseAddress = config.HRManagerURL

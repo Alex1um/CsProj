@@ -32,6 +32,7 @@ class HRDirectorDbService
     {
         foreach (var (assignment, score) in scores)
         {
+            Console.WriteLine(assignment.Teamlead + " " + assignment.Junior + " " + score);
             var team = _context.Teams.Single(team => team.HackatonRunId == runId && team.TeamleadId == assignment.Teamlead.Id && team.JuniorId == assignment.Junior.Id);
             team.Score = score;
         }

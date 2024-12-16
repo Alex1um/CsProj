@@ -43,11 +43,11 @@ app.MapPost("/hackaton", async ([FromServices] IOptions<HackatonSettings> settin
 {
     if (registration.PatricipantType == "junior")
     {
-        hrManager.AddParticipant(registration.ParticipantInfo.ToSub<Junior>(), registration.Preferences.ToSub<Teamlead>(), registration.HackatonRunId);
+        hrManager.AddJuniorParticipant(registration.ParticipantInfo.Id, registration.Preferences.Select(p => p.Id).ToList(), registration.HackatonRunId);
     }
     else if (registration.PatricipantType == "teamlead")
     {
-        hrManager.AddParticipant(registration.ParticipantInfo.ToSub<Teamlead>(), registration.Preferences.ToSub<Junior>(), registration.HackatonRunId);
+        hrManager.AddTeamleadParticipant(registration.ParticipantInfo.Id, registration.Preferences.Select(p => p.Id).ToList(), registration.HackatonRunId);
     }
 });
 

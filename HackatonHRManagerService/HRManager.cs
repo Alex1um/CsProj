@@ -10,20 +10,20 @@ public class HRManager(ITeamBuildingStrategy strategy, HackatonDbContext context
 
     private readonly ITeamBuildingStrategy strategy = strategy;
 
-    public void AddParticipant(Junior participant, List<Teamlead> preferences, int HackatonRunId) {
-        _context.Add(new PreferenceScheme<Junior, Teamlead> {
+    public void AddJuniorParticipant(int juniorId, List<int> teamleadPreferences, int HackatonRunId) {
+        _context.JuniorLists.Add(new PreferenceScheme<Junior, Teamlead> {
             HackatonRunId = HackatonRunId,
-            UnitId = participant.Id,
-            Prefered = preferences.Select(p => p.Id).ToList()
+            UnitId = juniorId,
+            Prefered = teamleadPreferences
         });
         _context.SaveChanges();
     }
 
-    public void AddParticipant(Teamlead participant, List<Junior> preferences, int HackatonRunId) {
-        _context.Add(new PreferenceScheme<Teamlead, Junior> {
+    public void AddTeamleadParticipant(int teamleadId, List<int> juniorPreferences, int HackatonRunId) {
+        _context.TeamleadLists.Add(new PreferenceScheme<Teamlead, Junior> {
             HackatonRunId = HackatonRunId,
-            UnitId = participant.Id,
-            Prefered = preferences.Select(p => p.Id).ToList()
+            UnitId = teamleadId,
+            Prefered = juniorPreferences
         });
         _context.SaveChanges();
     }
