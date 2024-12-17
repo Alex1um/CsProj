@@ -1,4 +1,4 @@
-namespace HackatonService.Extensions;
+namespace CsProj;
 
 public static class ListExtensions
 {
@@ -24,17 +24,4 @@ public static class ListExtensions
         }
         return list.Count / sum;
     }
-
-    static public void Print<T>(this List<T> list)
-    {
-        if (list.Count < 20)
-        {
-            Console.WriteLine("[" + string.Join(", ", list) + "]");
-        }
-        else
-        {
-            Console.WriteLine("[" + string.Join(",\n", list) + "]");
-        }
-    }
-
 }

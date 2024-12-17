@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackatonService", "HackatonService\HackatonService.csproj", "{B7E9A548-D80C-4B46-BC7D-FB23F54EFE1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsProj", "CsProj.csproj", "{9A778074-4F00-42AE-ABDB-B1B5F962C7FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackatonService.Tests", "HackatonService.Tests\HackatonService.Tests.csproj", "{1EE7F7A8-71B8-4961-84FA-B7FD44854EFE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CSHARP_2024_NSU", "CSHARP_2024_NSU", "{23B9BE5C-3975-4799-AF8C-D00387BC547F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nsu.HackathonProblem.Contracts", "Nsu.HackathonProblem.Contracts", "{F5725583-E9CB-4A26-AFDD-6F71F4DCB1EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nsu.HackathonProblem.Contracts", "CSHARP_2024_NSU\Nsu.HackathonProblem.Contracts\Nsu.HackathonProblem.Contracts\Nsu.HackathonProblem.Contracts.csproj", "{BCCEE672-B413-4BE2-B421-747F180420AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,13 +20,17 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B7E9A548-D80C-4B46-BC7D-FB23F54EFE1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7E9A548-D80C-4B46-BC7D-FB23F54EFE1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7E9A548-D80C-4B46-BC7D-FB23F54EFE1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7E9A548-D80C-4B46-BC7D-FB23F54EFE1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1EE7F7A8-71B8-4961-84FA-B7FD44854EFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1EE7F7A8-71B8-4961-84FA-B7FD44854EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1EE7F7A8-71B8-4961-84FA-B7FD44854EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1EE7F7A8-71B8-4961-84FA-B7FD44854EFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A778074-4F00-42AE-ABDB-B1B5F962C7FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A778074-4F00-42AE-ABDB-B1B5F962C7FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A778074-4F00-42AE-ABDB-B1B5F962C7FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A778074-4F00-42AE-ABDB-B1B5F962C7FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCCEE672-B413-4BE2-B421-747F180420AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCCEE672-B413-4BE2-B421-747F180420AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCCEE672-B413-4BE2-B421-747F180420AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCCEE672-B413-4BE2-B421-747F180420AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F5725583-E9CB-4A26-AFDD-6F71F4DCB1EC} = {23B9BE5C-3975-4799-AF8C-D00387BC547F}
+		{BCCEE672-B413-4BE2-B421-747F180420AF} = {F5725583-E9CB-4A26-AFDD-6F71F4DCB1EC}
 	EndGlobalSection
 EndGlobal
