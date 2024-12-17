@@ -10,10 +10,6 @@ public class HRDirectorRabbitMSendQService(IConfiguration configuration)
 	private string _hostname = configuration.GetValue<string>("RABBITMQ_HOSTNAME") ?? "localhost";
 	private string _username = configuration.GetValue<string>("RABBITMQ_USERNAME") ?? "user";
 	private string _password = configuration.GetValue<string>("RABBITMQ_PASSWORD") ?? "password";
-	private CreateChannelOptions channelOpts = new CreateChannelOptions(
-	publisherConfirmationsEnabled: true,
-	publisherConfirmationTrackingEnabled: true,
-	outstandingPublisherConfirmationsRateLimiter: new ThrottlingRateLimiter(256));
 
 	private BasicProperties props = new BasicProperties
 	{

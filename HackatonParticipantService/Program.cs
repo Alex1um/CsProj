@@ -14,7 +14,7 @@ builder.Configuration.AddEnvironmentVariables();
 // builder.Services.Configure<ParticipantConfiguration>(builder.Configuration);
 builder.Services.AddSingleton<ParticipantConfiguration>();
 
-builder.Services.AddHostedService<ParticipantRabbitMQListenService>();
+builder.Services.AddHostedService<ParticipantRabbitMQService>();
 
 var app = builder.Build();
 

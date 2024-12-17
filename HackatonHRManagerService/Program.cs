@@ -17,6 +17,7 @@ builder.Services.AddOptions<HackatonSettings>().Bind(builder.Configuration);
 builder.Services.AddTransient<ITeamBuildingStrategy, StableMarriageTeamBuildingStrategy>();
 builder.Services.AddTransient<ITeamBuildingStrategy, RandomTeamBuildingStrategy>();
 builder.Services.AddHostedService<HackatonReadyCheckerService>();
+builder.Services.AddHostedService<HRManagerRabbitMQListenService>();
 builder.Services.AddSingleton<HRManager>();
 
 builder.Services.AddDbContextPool<HackatonDbContext>(options =>
