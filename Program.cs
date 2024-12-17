@@ -5,7 +5,6 @@ using Nsu.HackathonProblem.Contracts;
 var strategy = new SuperStrategy();
 
 List<Employee> juniors = [
-    new Employee(1, "123"),
     new Employee(1, "Юдин Адам"),
     new Employee(2, "Яшина Яна"),
     new Employee(3, "Никитина Вероника"),
